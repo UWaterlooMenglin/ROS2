@@ -24,7 +24,7 @@ setup(
     },
     entry_points={
         'console_scripts': [
-            "publisher = py_package.publisher:main"
+            "turtle = py_package.turtle:main"
         ],
     },
 )
