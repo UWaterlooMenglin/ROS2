@@ -1,156 +1,412 @@
 <?xml version="1.0" ?>
 <!-- Generated using onshape-to-robot -->
-<!-- Onshape https://cad.onshape.com/documents/154f7442ec4859805d16fc8e/w/68cf82833751741c8fc2d544/e/aaa1b50dd4f05be30341aca7 -->
+<!-- Onshape https://cad.onshape.com/documents/492ab3dacfc39cbee2885846/w/977c9ee52e77abe89e0e2153/e/b0e2fdbad21c7219c6ff11e6 -->
 <robot name="meshes">
   <!-- Link base_link -->
   <link name="base_link">
     <inertial>
-      <origin xyz="0.170502 0.00192353 -0.0278969" rpy="0 0 0"/>
-      <mass value="2.65759"/>
-      <inertia ixx="0.00277689" ixy="0" ixz="-0" iyy="0.00935415" iyz="0" izz="0.0110066"/>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <mass value="1e-09"/>
+      <inertia ixx="1e-09" ixy="0" ixz="0" iyy="1e-09" iyz="0" izz="1e-09"/>
     </inertial>
+    <!-- Part 228_2500_034 -->
+    <visual>
+      <origin xyz="0.0528667 -0.040537 -0.026797" rpy="-1.5708 -8.502e-09 -2.0944"/>
+      <geometry>
+        <mesh filename="file:///home/menglin/ROS2/src/py_package/meshes/assets/228_2500_034.stl"/>
+      </geometry>
+      <material name="228_2500_034_material">
+        <color rgba="0.498039 0.498039 0.498039 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0.0528667 -0.040537 -0.026797" rpy="-1.5708 -8.502e-09 -2.0944"/>
+      <geometry>
+        <mesh filename="file:///home/menglin/ROS2/src/py_package/meshes/assets/228_2500_034.stl"/>
+      </geometry>
+    </collision>
+    <!-- Part 228_2500_034_2 -->
+    <visual>
+      <origin xyz="-0.00276906 -0.0726583 -0.026797" rpy="-1.5708 -5.1944e-08 -5.4078e-08"/>
+      <geometry>
+        <mesh filename="file:///home/menglin/ROS2/src/py_package/meshes/assets/228_2500_034.stl"/>
+      </geometry>
+      <material name="228_2500_034_2_material">
+        <color rgba="0.498039 0.498039 0.498039 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="-0.00276906 -0.0726583 -0.026797" rpy="-1.5708 -5.1944e-08 -5.4078e-08"/>
+      <geometry>
+        <mesh filename="file:///home/menglin/ROS2/src/py_package/meshes/assets/228_2500_034.stl"/>
+      </geometry>
+    </collision>
+    <!-- Part 228_2500_034_3 -->
+    <visual>
+      <origin xyz="0.0520007 0.0232056 -0.026797" rpy="-1.5708 -6.0447e-08 -1.0472"/>
+      <geometry>
+        <mesh filename="file:///home/menglin/ROS2/src/py_package/meshes/assets/228_2500_034.stl"/>
+      </geometry>
+      <material name="228_2500_034_3_material">
+        <color rgba="0.498039 0.498039 0.498039 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0.0520007 0.0232056 -0.026797" rpy="-1.5708 -6.0447e-08 -1.0472"/>
+      <geometry>
+        <mesh filename="file:///home/menglin/ROS2/src/py_package/meshes/assets/228_2500_034.stl"/>
+      </geometry>
+    </collision>
+    <!-- Part 228_2500_034_4 -->
+    <visual>
+      <origin xyz="-0.0584048 0.0237056 -0.026797" rpy="1.5708 8.502e-09 1.0472"/>
+      <geometry>
+        <mesh filename="file:///home/menglin/ROS2/src/py_package/meshes/assets/228_2500_034.stl"/>
+      </geometry>
+      <material name="228_2500_034_4_material">
+        <color rgba="0.498039 0.498039 0.498039 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="-0.0584048 0.0237056 -0.026797" rpy="1.5708 8.502e-09 1.0472"/>
+      <geometry>
+        <mesh filename="file:///home/menglin/ROS2/src/py_package/meshes/assets/228_2500_034.stl"/>
+      </geometry>
+    </collision>
+    <!-- Part 228_2500_034_5 -->
+    <visual>
+      <origin xyz="-0.00276905 0.0558269 -0.026797" rpy="1.5708 -5.1944e-08 -5.4078e-08"/>
+      <geometry>
+        <mesh filename="file:///home/menglin/ROS2/src/py_package/meshes/assets/228_2500_034.stl"/>
+      </geometry>
+      <material name="228_2500_034_5_material">
+        <color rgba="0.498039 0.498039 0.498039 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="-0.00276905 0.0558269 -0.026797" rpy="1.5708 -5.1944e-08 -5.4078e-08"/>
+      <geometry>
+        <mesh filename="file:///home/menglin/ROS2/src/py_package/meshes/assets/228_2500_034.stl"/>
+      </geometry>
+    </collision>
     <!-- Part base_link -->
     <visual>
-      <origin xyz="0.170502 0.00192353 -0.0278969" rpy="-3.14159 0 0"/>
+      <origin xyz="-0.00276906 -0.00841569 -0.00484699" rpy="-1.5708 -5.1944e-08 -5.4078e-08"/>
       <geometry>
-        <mesh filename="file:///home/menglin/ROS2/src/py_package/meshes/assets/base_link.stl"/>
+        <mesh filename="file:///home/menglin/ROS2/src/py_package/meshes/assets/228_2500_2000.stl"/>
       </geometry>
       <material name="base_link_material">
-        <color rgba="0.615686 0.811765 0.929412 1"/>
+        <color rgba="0.498039 0.498039 0.498039 1"/>
       </material>
     </visual>
     <collision>
-      <origin xyz="0.170502 0.00192353 -0.0278969" rpy="-3.14159 0 0"/>
+      <origin xyz="-0.00276906 -0.00841569 -0.00484699" rpy="-1.5708 -5.1944e-08 -5.4078e-08"/>
       <geometry>
-        <mesh filename="file:///home/menglin/ROS2/src/py_package/meshes/assets/base_link.stl"/>
+        <mesh filename="file:///home/menglin/ROS2/src/py_package/meshes/assets/228_2500_2000.stl"/>
       </geometry>
     </collision>
-  </link>
-  <!-- Link fr -->
-  <link name="fr">
-    <inertial>
-      <origin xyz="0 -0 -0.0372525" rpy="0 0 0"/>
-      <mass value="0.535445"/>
-      <inertia ixx="0.000362541" ixy="0" ixz="0" iyy="0.000362541" iyz="0" izz="0.000662746"/>
-    </inertial>
-    <!-- Part fr -->
+    <!-- Part 228_2500_034_6 -->
     <visual>
-      <origin xyz="0 0 -0.0375" rpy="1.5708 -0 0"/>
+      <origin xyz="-0.0584048 -0.040537 -0.026797" rpy="1.5708 -6.0447e-08 -1.0472"/>
       <geometry>
-        <mesh filename="file:///home/menglin/ROS2/src/py_package/meshes/assets/fr.stl"/>
+        <mesh filename="file:///home/menglin/ROS2/src/py_package/meshes/assets/228_2500_034.stl"/>
       </geometry>
-      <material name="fr_material">
-        <color rgba="0.615686 0.811765 0.929412 1"/>
+      <material name="228_2500_034_6_material">
+        <color rgba="0.498039 0.498039 0.498039 1"/>
       </material>
     </visual>
     <collision>
-      <origin xyz="0 0 -0.0375" rpy="1.5708 -0 0"/>
+      <origin xyz="-0.0584048 -0.040537 -0.026797" rpy="1.5708 -6.0447e-08 -1.0472"/>
       <geometry>
-        <mesh filename="file:///home/menglin/ROS2/src/py_package/meshes/assets/fr.stl"/>
+        <mesh filename="file:///home/menglin/ROS2/src/py_package/meshes/assets/228_2500_034.stl"/>
       </geometry>
     </collision>
   </link>
-  <!-- Joint from base_link to fr -->
-  <joint name="fr" type="revolute">
-    <origin xyz="0.240502 -0.0280765 -0.0278969" rpy="-1.5708 -0 0"/>
+  <!-- Link 228_2500_209 -->
+  <link name="228_2500_209">
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <mass value="1e-09"/>
+      <inertia ixx="1e-09" ixy="0" ixz="0" iyy="1e-09" iyz="0" izz="1e-09"/>
+    </inertial>
+    <!-- Part 228_2500_208 -->
+    <visual>
+      <origin xyz="0 -0 -0.003175" rpy="3.14159 0 0"/>
+      <geometry>
+        <mesh filename="file:///home/menglin/ROS2/src/py_package/meshes/assets/228_2500_208.stl"/>
+      </geometry>
+      <material name="228_2500_208_material">
+        <color rgba="0.980392 0.713725 0.00392157 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 -0 -0.003175" rpy="3.14159 0 0"/>
+      <geometry>
+        <mesh filename="file:///home/menglin/ROS2/src/py_package/meshes/assets/228_2500_208.stl"/>
+      </geometry>
+    </collision>
+    <!-- Part 228_2500_209 -->
+    <visual>
+      <origin xyz="0 -0 -0.010075" rpy="-3.14159 0 0"/>
+      <geometry>
+        <mesh filename="file:///home/menglin/ROS2/src/py_package/meshes/assets/228_2500_209.stl"/>
+      </geometry>
+      <material name="228_2500_209_material">
+        <color rgba="0.231373 0.380392 0.705882 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 -0 -0.010075" rpy="-3.14159 0 0"/>
+      <geometry>
+        <mesh filename="file:///home/menglin/ROS2/src/py_package/meshes/assets/228_2500_209.stl"/>
+      </geometry>
+    </collision>
+  </link>
+  <!-- Joint from base_link to 228_2500_209 -->
+  <joint name="w4" type="revolute">
+    <origin xyz="-0.0603845 0.0248486 -0.033147" rpy="2.61799 -1.5708 0"/>
     <parent link="base_link"/>
-    <child link="fr"/>
+    <child link="228_2500_209"/>
     <axis xyz="0 0 1"/>
     <limit effort="10" velocity="10" lower="-3.141592653589793" upper="3.141592653589793"/>
   </joint>
-  <!-- Link rr -->
-  <link name="rr">
+  <!-- Link 228_2500_209_2 -->
+  <link name="228_2500_209_2">
     <inertial>
-      <origin xyz="0 -0 -0.0372525" rpy="0 0 0"/>
-      <mass value="0.535445"/>
-      <inertia ixx="0.000362541" ixy="0" ixz="0" iyy="0.000362541" iyz="0" izz="0.000662746"/>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <mass value="1e-09"/>
+      <inertia ixx="1e-09" ixy="0" ixz="0" iyy="1e-09" iyz="0" izz="1e-09"/>
     </inertial>
-    <!-- Part rr -->
+    <!-- Part 228_2500_208_2 -->
     <visual>
-      <origin xyz="0 0 -0.0375" rpy="1.5708 -0 0"/>
+      <origin xyz="-0 0 -0.003175" rpy="-3.14159 0 -0"/>
       <geometry>
-        <mesh filename="file:///home/menglin/ROS2/src/py_package/meshes/assets/rr.stl"/>
+        <mesh filename="file:///home/menglin/ROS2/src/py_package/meshes/assets/228_2500_208.stl"/>
       </geometry>
-      <material name="rr_material">
-        <color rgba="0.615686 0.811765 0.929412 1"/>
+      <material name="228_2500_208_2_material">
+        <color rgba="0.980392 0.713725 0.00392157 1"/>
       </material>
     </visual>
     <collision>
-      <origin xyz="0 0 -0.0375" rpy="1.5708 -0 0"/>
+      <origin xyz="-0 0 -0.003175" rpy="-3.14159 0 -0"/>
       <geometry>
-        <mesh filename="file:///home/menglin/ROS2/src/py_package/meshes/assets/rr.stl"/>
+        <mesh filename="file:///home/menglin/ROS2/src/py_package/meshes/assets/228_2500_208.stl"/>
+      </geometry>
+    </collision>
+    <!-- Part 228_2500_209_2 -->
+    <visual>
+      <origin xyz="-0 0 -0.010475" rpy="3.14159 0 -0"/>
+      <geometry>
+        <mesh filename="file:///home/menglin/ROS2/src/py_package/meshes/assets/228_2500_209.stl"/>
+      </geometry>
+      <material name="228_2500_209_2_material">
+        <color rgba="0.231373 0.380392 0.705882 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="-0 0 -0.010475" rpy="3.14159 0 -0"/>
+      <geometry>
+        <mesh filename="file:///home/menglin/ROS2/src/py_package/meshes/assets/228_2500_209.stl"/>
       </geometry>
     </collision>
   </link>
-  <!-- Joint from base_link to rr -->
-  <joint name="rr" type="revolute">
-    <origin xyz="0.100502 -0.0280765 -0.0278969" rpy="-1.5708 -0 0"/>
+  <!-- Joint from base_link to 228_2500_209_2 -->
+  <joint name="w3" type="revolute">
+    <origin xyz="-0.00276905 0.0581129 -0.033147" rpy="1.5708 -5.1944e-08 -5.4078e-08"/>
     <parent link="base_link"/>
-    <child link="rr"/>
+    <child link="228_2500_209_2"/>
     <axis xyz="0 0 1"/>
     <limit effort="10" velocity="10" lower="-3.141592653589793" upper="3.141592653589793"/>
   </joint>
-  <!-- Link fl -->
-  <link name="fl">
+  <!-- Link 228_2500_208 -->
+  <link name="228_2500_208">
     <inertial>
-      <origin xyz="0 -0 -0.0372525" rpy="0 0 0"/>
-      <mass value="0.535445"/>
-      <inertia ixx="0.000362541" ixy="-0" ixz="0" iyy="0.000362541" iyz="0" izz="0.000662746"/>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <mass value="1e-09"/>
+      <inertia ixx="1e-09" ixy="0" ixz="0" iyy="1e-09" iyz="0" izz="1e-09"/>
     </inertial>
-    <!-- Part fl -->
+    <!-- Part 228_2500_209_3 -->
     <visual>
-      <origin xyz="0 0 -0.0375" rpy="1.5708 -0 0"/>
+      <origin xyz="-0 -0 -0.010475" rpy="3.14159 0 -1.5708"/>
       <geometry>
-        <mesh filename="file:///home/menglin/ROS2/src/py_package/meshes/assets/fl.stl"/>
+        <mesh filename="file:///home/menglin/ROS2/src/py_package/meshes/assets/228_2500_209.stl"/>
       </geometry>
-      <material name="fl_material">
-        <color rgba="0.615686 0.811765 0.929412 1"/>
+      <material name="228_2500_209_3_material">
+        <color rgba="0.231373 0.380392 0.705882 1"/>
       </material>
     </visual>
     <collision>
-      <origin xyz="0 0 -0.0375" rpy="1.5708 -0 0"/>
+      <origin xyz="-0 -0 -0.010475" rpy="3.14159 0 -1.5708"/>
       <geometry>
-        <mesh filename="file:///home/menglin/ROS2/src/py_package/meshes/assets/fl.stl"/>
+        <mesh filename="file:///home/menglin/ROS2/src/py_package/meshes/assets/228_2500_209.stl"/>
+      </geometry>
+    </collision>
+    <!-- Part 228_2500_208_3 -->
+    <visual>
+      <origin xyz="0 0 -0.003175" rpy="-3.14159 -0 0"/>
+      <geometry>
+        <mesh filename="file:///home/menglin/ROS2/src/py_package/meshes/assets/228_2500_208.stl"/>
+      </geometry>
+      <material name="228_2500_208_3_material">
+        <color rgba="0.980392 0.713725 0.00392157 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 -0.003175" rpy="-3.14159 -0 0"/>
+      <geometry>
+        <mesh filename="file:///home/menglin/ROS2/src/py_package/meshes/assets/228_2500_208.stl"/>
       </geometry>
     </collision>
   </link>
-  <!-- Joint from base_link to fl -->
-  <joint name="fl" type="revolute">
-    <origin xyz="0.240502 0.0319235 -0.0278969" rpy="1.5708 0 0"/>
+  <!-- Joint from base_link to 228_2500_208 -->
+  <joint name="w5" type="revolute">
+    <origin xyz="-0.0603845 -0.04168 -0.033147" rpy="-1.5708 -6.0447e-08 -1.0472"/>
     <parent link="base_link"/>
-    <child link="fl"/>
+    <child link="228_2500_208"/>
     <axis xyz="0 0 1"/>
     <limit effort="10" velocity="10" lower="-3.141592653589793" upper="3.141592653589793"/>
   </joint>
-  <!-- Link rl -->
-  <link name="rl">
+  <!-- Link 228_2500_209_3 -->
+  <link name="228_2500_209_3">
     <inertial>
-      <origin xyz="0 -0 -0.0372525" rpy="0 0 0"/>
-      <mass value="0.535445"/>
-      <inertia ixx="0.000362541" ixy="-0" ixz="0" iyy="0.000362541" iyz="0" izz="0.000662746"/>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <mass value="1e-09"/>
+      <inertia ixx="1e-09" ixy="0" ixz="0" iyy="1e-09" iyz="0" izz="1e-09"/>
     </inertial>
-    <!-- Part rl -->
+    <!-- Part 228_2500_209_4 -->
     <visual>
-      <origin xyz="0 0 -0.0375" rpy="1.5708 -0 0"/>
+      <origin xyz="-0 -0.001615 -0.00952599" rpy="-3.14159 0 0"/>
       <geometry>
-        <mesh filename="file:///home/menglin/ROS2/src/py_package/meshes/assets/rl.stl"/>
+        <mesh filename="file:///home/menglin/ROS2/src/py_package/meshes/assets/228_2500_209.stl"/>
       </geometry>
-      <material name="rl_material">
-        <color rgba="0.615686 0.811765 0.929412 1"/>
+      <material name="228_2500_209_4_material">
+        <color rgba="0.231373 0.380392 0.705882 1"/>
       </material>
     </visual>
     <collision>
-      <origin xyz="0 0 -0.0375" rpy="1.5708 -0 0"/>
+      <origin xyz="-0 -0.001615 -0.00952599" rpy="-3.14159 0 0"/>
       <geometry>
-        <mesh filename="file:///home/menglin/ROS2/src/py_package/meshes/assets/rl.stl"/>
+        <mesh filename="file:///home/menglin/ROS2/src/py_package/meshes/assets/228_2500_209.stl"/>
+      </geometry>
+    </collision>
+    <!-- Part 228_2500_208_4 -->
+    <visual>
+      <origin xyz="0 -0.001615 -0.003175" rpy="3.14159 -0 0"/>
+      <geometry>
+        <mesh filename="file:///home/menglin/ROS2/src/py_package/meshes/assets/228_2500_208.stl"/>
+      </geometry>
+      <material name="228_2500_208_4_material">
+        <color rgba="0.980392 0.713725 0.00392157 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 -0.001615 -0.003175" rpy="3.14159 -0 0"/>
+      <geometry>
+        <mesh filename="file:///home/menglin/ROS2/src/py_package/meshes/assets/228_2500_208.stl"/>
       </geometry>
     </collision>
   </link>
-  <!-- Joint from base_link to rl -->
-  <joint name="rl" type="revolute">
-    <origin xyz="0.100502 0.0319235 -0.0278969" rpy="1.5708 0 0"/>
+  <!-- Joint from base_link to 228_2500_209_3 -->
+  <joint name="w1" type="revolute">
+    <origin xyz="0.0548464 -0.04168 -0.033147" rpy="-2.61799 1.5708 0"/>
     <parent link="base_link"/>
-    <child link="rl"/>
+    <child link="228_2500_209_3"/>
+    <axis xyz="0 0 1"/>
+    <limit effort="10" velocity="10" lower="-3.141592653589793" upper="3.141592653589793"/>
+  </joint>
+  <!-- Link 228_2500_208_2 -->
+  <link name="228_2500_208_2">
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <mass value="1e-09"/>
+      <inertia ixx="1e-09" ixy="0" ixz="0" iyy="1e-09" iyz="0" izz="1e-09"/>
+    </inertial>
+    <!-- Part 228_2500_208_5 -->
+    <visual>
+      <origin xyz="0 0 -0.003175" rpy="-3.14159 0 -0"/>
+      <geometry>
+        <mesh filename="file:///home/menglin/ROS2/src/py_package/meshes/assets/228_2500_208.stl"/>
+      </geometry>
+      <material name="228_2500_208_5_material">
+        <color rgba="0.980392 0.713725 0.00392157 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 -0.003175" rpy="-3.14159 0 -0"/>
+      <geometry>
+        <mesh filename="file:///home/menglin/ROS2/src/py_package/meshes/assets/228_2500_208.stl"/>
+      </geometry>
+    </collision>
+    <!-- Part 228_2500_209_5 -->
+    <visual>
+      <origin xyz="0 -0 -0.00952599" rpy="-3.14159 0 -0"/>
+      <geometry>
+        <mesh filename="file:///home/menglin/ROS2/src/py_package/meshes/assets/228_2500_209.stl"/>
+      </geometry>
+      <material name="228_2500_209_5_material">
+        <color rgba="0.231373 0.380392 0.705882 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 -0 -0.00952599" rpy="-3.14159 0 -0"/>
+      <geometry>
+        <mesh filename="file:///home/menglin/ROS2/src/py_package/meshes/assets/228_2500_209.stl"/>
+      </geometry>
+    </collision>
+  </link>
+  <!-- Joint from base_link to 228_2500_208_2 -->
+  <joint name="w2" type="revolute">
+    <origin xyz="0.0539804 0.0243486 -0.033147" rpy="0.523599 -1.5708 0"/>
+    <parent link="base_link"/>
+    <child link="228_2500_208_2"/>
+    <axis xyz="0 0 1"/>
+    <limit effort="10" velocity="10" lower="-3.141592653589793" upper="3.141592653589793"/>
+  </joint>
+  <!-- Link 228_2500_208_3 -->
+  <link name="228_2500_208_3">
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <mass value="1e-09"/>
+      <inertia ixx="1e-09" ixy="0" ixz="0" iyy="1e-09" iyz="0" izz="1e-09"/>
+    </inertial>
+    <!-- Part 228_2500_208_6 -->
+    <visual>
+      <origin xyz="0 0 -0.003175" rpy="3.14159 -0 -0"/>
+      <geometry>
+        <mesh filename="file:///home/menglin/ROS2/src/py_package/meshes/assets/228_2500_208.stl"/>
+      </geometry>
+      <material name="228_2500_208_6_material">
+        <color rgba="0.980392 0.713725 0.00392157 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 -0.003175" rpy="3.14159 -0 -0"/>
+      <geometry>
+        <mesh filename="file:///home/menglin/ROS2/src/py_package/meshes/assets/228_2500_208.stl"/>
+      </geometry>
+    </collision>
+    <!-- Part 228_2500_209_6 -->
+    <visual>
+      <origin xyz="-0 0 -0.0105352" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="file:///home/menglin/ROS2/src/py_package/meshes/assets/228_2500_209.stl"/>
+      </geometry>
+      <material name="228_2500_209_6_material">
+        <color rgba="0.231373 0.380392 0.705882 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="-0 0 -0.0105352" rpy="0 -0 0"/>
+      <geometry>
+        <mesh filename="file:///home/menglin/ROS2/src/py_package/meshes/assets/228_2500_209.stl"/>
+      </geometry>
+    </collision>
+  </link>
+  <!-- Joint from base_link to 228_2500_208_3 -->
+  <joint name="w0" type="revolute">
+    <origin xyz="-0.00276906 -0.0749443 -0.033147" rpy="-1.5708 -5.1944e-08 -5.4078e-08"/>
+    <parent link="base_link"/>
+    <child link="228_2500_208_3"/>
     <axis xyz="0 0 1"/>
     <limit effort="10" velocity="10" lower="-3.141592653589793" upper="3.141592653589793"/>
   </joint>
