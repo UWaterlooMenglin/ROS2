@@ -1,0 +1,157 @@
+<?xml version="1.0" ?>
+<!-- Generated using onshape-to-robot -->
+<!-- Onshape https://cad.onshape.com/documents/154f7442ec4859805d16fc8e/w/68cf82833751741c8fc2d544/e/aaa1b50dd4f05be30341aca7 -->
+<robot name="meshes">
+  <!-- Link base_link -->
+  <link name="base_link">
+    <inertial>
+      <origin xyz="0.170502 0.00192353 -0.0278969" rpy="0 0 0"/>
+      <mass value="2.65759"/>
+      <inertia ixx="0.00277689" ixy="0" ixz="-0" iyy="0.00935415" iyz="0" izz="0.0110066"/>
+    </inertial>
+    <!-- Part base_link -->
+    <visual>
+      <origin xyz="0.170502 0.00192353 -0.0278969" rpy="-3.14159 0 0"/>
+      <geometry>
+        <mesh filename="file:///home/menglin/ROS2/src/py_package/meshes/assets/base_link.stl"/>
+      </geometry>
+      <material name="base_link_material">
+        <color rgba="0.615686 0.811765 0.929412 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0.170502 0.00192353 -0.0278969" rpy="-3.14159 0 0"/>
+      <geometry>
+        <mesh filename="file:///home/menglin/ROS2/src/py_package/meshes/assets/base_link.stl"/>
+      </geometry>
+    </collision>
+  </link>
+  <!-- Link fr -->
+  <link name="fr">
+    <inertial>
+      <origin xyz="0 -0 -0.0372525" rpy="0 0 0"/>
+      <mass value="0.535445"/>
+      <inertia ixx="0.000362541" ixy="0" ixz="0" iyy="0.000362541" iyz="0" izz="0.000662746"/>
+    </inertial>
+    <!-- Part fr -->
+    <visual>
+      <origin xyz="0 0 -0.0375" rpy="1.5708 -0 0"/>
+      <geometry>
+        <mesh filename="file:///home/menglin/ROS2/src/py_package/meshes/assets/fr.stl"/>
+      </geometry>
+      <material name="fr_material">
+        <color rgba="0.615686 0.811765 0.929412 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 -0.0375" rpy="1.5708 -0 0"/>
+      <geometry>
+        <mesh filename="file:///home/menglin/ROS2/src/py_package/meshes/assets/fr.stl"/>
+      </geometry>
+    </collision>
+  </link>
+  <!-- Joint from base_link to fr -->
+  <joint name="fr" type="revolute">
+    <origin xyz="0.240502 -0.0280765 -0.0278969" rpy="-1.5708 -0 0"/>
+    <parent link="base_link"/>
+    <child link="fr"/>
+    <axis xyz="0 0 1"/>
+    <limit effort="10" velocity="10" lower="-3.141592653589793" upper="3.141592653589793"/>
+  </joint>
+  <!-- Link rr -->
+  <link name="rr">
+    <inertial>
+      <origin xyz="0 -0 -0.0372525" rpy="0 0 0"/>
+      <mass value="0.535445"/>
+      <inertia ixx="0.000362541" ixy="0" ixz="0" iyy="0.000362541" iyz="0" izz="0.000662746"/>
+    </inertial>
+    <!-- Part rr -->
+    <visual>
+      <origin xyz="0 0 -0.0375" rpy="1.5708 -0 0"/>
+      <geometry>
+        <mesh filename="file:///home/menglin/ROS2/src/py_package/meshes/assets/rr.stl"/>
+      </geometry>
+      <material name="rr_material">
+        <color rgba="0.615686 0.811765 0.929412 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 -0.0375" rpy="1.5708 -0 0"/>
+      <geometry>
+        <mesh filename="file:///home/menglin/ROS2/src/py_package/meshes/assets/rr.stl"/>
+      </geometry>
+    </collision>
+  </link>
+  <!-- Joint from base_link to rr -->
+  <joint name="rr" type="revolute">
+    <origin xyz="0.100502 -0.0280765 -0.0278969" rpy="-1.5708 -0 0"/>
+    <parent link="base_link"/>
+    <child link="rr"/>
+    <axis xyz="0 0 1"/>
+    <limit effort="10" velocity="10" lower="-3.141592653589793" upper="3.141592653589793"/>
+  </joint>
+  <!-- Link fl -->
+  <link name="fl">
+    <inertial>
+      <origin xyz="0 -0 -0.0372525" rpy="0 0 0"/>
+      <mass value="0.535445"/>
+      <inertia ixx="0.000362541" ixy="-0" ixz="0" iyy="0.000362541" iyz="0" izz="0.000662746"/>
+    </inertial>
+    <!-- Part fl -->
+    <visual>
+      <origin xyz="0 0 -0.0375" rpy="1.5708 -0 0"/>
+      <geometry>
+        <mesh filename="file:///home/menglin/ROS2/src/py_package/meshes/assets/fl.stl"/>
+      </geometry>
+      <material name="fl_material">
+        <color rgba="0.615686 0.811765 0.929412 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 -0.0375" rpy="1.5708 -0 0"/>
+      <geometry>
+        <mesh filename="file:///home/menglin/ROS2/src/py_package/meshes/assets/fl.stl"/>
+      </geometry>
+    </collision>
+  </link>
+  <!-- Joint from base_link to fl -->
+  <joint name="fl" type="revolute">
+    <origin xyz="0.240502 0.0319235 -0.0278969" rpy="1.5708 0 0"/>
+    <parent link="base_link"/>
+    <child link="fl"/>
+    <axis xyz="0 0 1"/>
+    <limit effort="10" velocity="10" lower="-3.141592653589793" upper="3.141592653589793"/>
+  </joint>
+  <!-- Link rl -->
+  <link name="rl">
+    <inertial>
+      <origin xyz="0 -0 -0.0372525" rpy="0 0 0"/>
+      <mass value="0.535445"/>
+      <inertia ixx="0.000362541" ixy="-0" ixz="0" iyy="0.000362541" iyz="0" izz="0.000662746"/>
+    </inertial>
+    <!-- Part rl -->
+    <visual>
+      <origin xyz="0 0 -0.0375" rpy="1.5708 -0 0"/>
+      <geometry>
+        <mesh filename="file:///home/menglin/ROS2/src/py_package/meshes/assets/rl.stl"/>
+      </geometry>
+      <material name="rl_material">
+        <color rgba="0.615686 0.811765 0.929412 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 -0.0375" rpy="1.5708 -0 0"/>
+      <geometry>
+        <mesh filename="file:///home/menglin/ROS2/src/py_package/meshes/assets/rl.stl"/>
+      </geometry>
+    </collision>
+  </link>
+  <!-- Joint from base_link to rl -->
+  <joint name="rl" type="revolute">
+    <origin xyz="0.100502 0.0319235 -0.0278969" rpy="1.5708 0 0"/>
+    <parent link="base_link"/>
+    <child link="rl"/>
+    <axis xyz="0 0 1"/>
+    <limit effort="10" velocity="10" lower="-3.141592653589793" upper="3.141592653589793"/>
+  </joint>
+</robot>
