@@ -7,9 +7,10 @@
   <maintainer email="m636wang@uwaterloo.ca">menglin</maintainer>
   <license>TODO: License declaration</license>
 
-  <exec_depend>rclpy</exec_depend>
-  <exec_depend>turtlesim</dependency>
-  <exec_depend>geometry_msgs</dependency>
+  <depend>rclpy</depend>
+  <depend>turtlesim</depend>
+  <depend>geometry_msgs</depend>
+  <depend>sensor_msgs</depend>
 
   <test_depend>ament_copyright</test_depend>
   <test_depend>ament_flake8</test_depend>

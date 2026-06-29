@@ -24,7 +24,8 @@ setup(
     },
     entry_points={
         'console_scripts': [
-            "turtle = py_package.turtle:main"
+            "turtle = py_package.turtle:main",
+            "robot_controller = py_package.robot_controller:main"
         ],
     },
 )
