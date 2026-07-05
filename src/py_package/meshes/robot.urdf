@@ -5,9 +5,9 @@
   <!-- Link base_link -->
   <link name="base_link">
     <inertial>
-      <origin xyz="-0 0 0.0644096" rpy="0 0 0"/>
-      <mass value="116.707"/>
-      <inertia ixx="8.9803" ixy="0" ixz="0" iyy="8.9803" iyz="0" izz="13.2174"/>
+      <origin xyz="0 0 0.12357" rpy="0 0 0"/>
+      <mass value="130.02"/>
+      <inertia ixx="2.74" ixy="0" ixz="0" iyy="2.74" iyz="0" izz="4.13301"/>
     </inertial>
     <!-- Part base_link -->
     <visual>
@@ -29,13 +29,13 @@
   <!-- Link arm1_base -->
   <link name="arm1_base">
     <inertial>
-      <origin xyz="-3.62131e-07 1.93556e-07 -0.479977" rpy="0 0 0"/>
-      <mass value="7.44232"/>
-      <inertia ixx="0.548899" ixy="-4.4911e-08" ixz="-8.37271e-07" iyy="0.549999" iyz="4.48638e-07" izz="0.0155141"/>
+      <origin xyz="-1.3357e-08 1.1495e-08 -0.0854122" rpy="0 0 0"/>
+      <mass value="3.45791"/>
+      <inertia ixx="0.0126819" ixy="3.02e-10" ixz="-5.356e-09" iyy="0.0137822" iyz="4.123e-09" izz="0.00564869"/>
     </inertial>
     <!-- Part arm1_base -->
     <visual>
-      <origin xyz="-0 0 0" rpy="3.14159 -0 -0"/>
+      <origin xyz="0 0 0" rpy="-3.14159 -0 -0"/>
       <geometry>
         <mesh filename="file:///home/menglin/ROS2/src/py_package/meshes/assets/arm1_base.stl"/>
       </geometry>
@@ -44,7 +44,7 @@
       </material>
     </visual>
     <collision>
-      <origin xyz="-0 0 0" rpy="3.14159 -0 -0"/>
+      <origin xyz="0 0 0" rpy="-3.14159 -0 -0"/>
       <geometry>
         <mesh filename="file:///home/menglin/ROS2/src/py_package/meshes/assets/arm1_base.stl"/>
       </geometry>
@@ -53,9 +53,9 @@
   <!-- Link arm1 -->
   <link name="arm1">
     <inertial>
-      <origin xyz="0.392845 -2.1279e-08 -0.0536656" rpy="0 0 0"/>
-      <mass value="6.76494"/>
-      <inertia ixx="0.00336639" ixy="-3.7456e-08" ixz="1.07541e-07" iyy="0.438209" iyz="-2.2728e-08" izz="0.437836"/>
+      <origin xyz="0.387858 -2.1286e-08 -0.0536656" rpy="0 0 0"/>
+      <mass value="6.6886"/>
+      <inertia ixx="0.00333204" ixy="-3.649e-08" ixz="1.05332e-07" iyy="0.42345" iyz="-2.248e-08" izz="0.423078"/>
     </inertial>
     <!-- Part arm1 -->
     <visual>
@@ -77,13 +77,13 @@
   <!-- Link arm2_base -->
   <link name="arm2_base">
     <inertial>
-      <origin xyz="-4.42854e-07 2.36702e-07 -0.497691" rpy="0 0 0"/>
-      <mass value="6.08574"/>
-      <inertia ixx="0.462844" ixy="-4.4911e-08" ixz="-7.89532e-07" iyy="0.463944" iyz="4.23122e-07" izz="0.00893377"/>
+      <origin xyz="-3.72859e-07 2.60144e-07 0.254292" rpy="0 0 0"/>
+      <mass value="5.49197"/>
+      <inertia ixx="0.329388" ixy="-3.6297e-08" ixz="-5.14265e-07" iyy="0.330489" iyz="3.76337e-07" izz="0.00819157"/>
     </inertial>
     <!-- Part arm2_base -->
     <visual>
-      <origin xyz="0 0 0" rpy="3.14159 -0 0"/>
+      <origin xyz="0 0 0.7" rpy="3.14159 0 -0"/>
       <geometry>
         <mesh filename="file:///home/menglin/ROS2/src/py_package/meshes/assets/arm2_base.stl"/>
       </geometry>
@@ -92,7 +92,7 @@
       </material>
     </visual>
     <collision>
-      <origin xyz="0 0 0" rpy="3.14159 -0 0"/>
+      <origin xyz="0 0 0.7" rpy="3.14159 0 -0"/>
       <geometry>
         <mesh filename="file:///home/menglin/ROS2/src/py_package/meshes/assets/arm2_base.stl"/>
       </geometry>
@@ -101,13 +101,13 @@
   <!-- Link arm2 -->
   <link name="arm2">
     <inertial>
-      <origin xyz="0.392845 -2.1279e-08 0.0536656" rpy="0 0 0"/>
-      <mass value="6.76494"/>
-      <inertia ixx="0.00336639" ixy="-3.7456e-08" ixz="1.07541e-07" iyy="0.438209" iyz="-2.2728e-08" izz="0.437836"/>
+      <origin xyz="0.387858 -2.1286e-08 -0.0536656" rpy="0 0 0"/>
+      <mass value="6.6886"/>
+      <inertia ixx="0.00333204" ixy="-3.649e-08" ixz="1.05332e-07" iyy="0.42345" iyz="-2.248e-08" izz="0.423078"/>
     </inertial>
     <!-- Part arm2 -->
     <visual>
-      <origin xyz="0 0 0.0536656" rpy="1.5708 1.5708 0"/>
+      <origin xyz="0 0 -0.0536656" rpy="1.5708 1.5708 0"/>
       <geometry>
         <mesh filename="file:///home/menglin/ROS2/src/py_package/meshes/assets/arm2.stl"/>
       </geometry>
@@ -116,15 +116,79 @@
       </material>
     </visual>
     <collision>
-      <origin xyz="0 0 0.0536656" rpy="1.5708 1.5708 0"/>
+      <origin xyz="0 0 -0.0536656" rpy="1.5708 1.5708 0"/>
       <geometry>
         <mesh filename="file:///home/menglin/ROS2/src/py_package/meshes/assets/arm2.stl"/>
       </geometry>
     </collision>
   </link>
+  <!-- Link arm3_base -->
+  <link name="arm3_base">
+    <inertial>
+      <origin xyz="-3.72859e-07 2.60144e-07 0.254292" rpy="0 0 0"/>
+      <mass value="5.49197"/>
+      <inertia ixx="0.329388" ixy="-3.6297e-08" ixz="-5.14265e-07" iyy="0.330489" iyz="3.76337e-07" izz="0.00819157"/>
+    </inertial>
+    <!-- Part arm3_base -->
+    <visual>
+      <origin xyz="0 0 0.7" rpy="3.14159 -0 -0"/>
+      <geometry>
+        <mesh filename="file:///home/menglin/ROS2/src/py_package/meshes/assets/arm3_base.stl"/>
+      </geometry>
+      <material name="arm3_base_material">
+        <color rgba="0.615686 0.811765 0.929412 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0.7" rpy="3.14159 -0 -0"/>
+      <geometry>
+        <mesh filename="file:///home/menglin/ROS2/src/py_package/meshes/assets/arm3_base.stl"/>
+      </geometry>
+    </collision>
+  </link>
+  <!-- Link arm3 -->
+  <link name="arm3">
+    <inertial>
+      <origin xyz="0.188829 -2.1808e-08 -0.0536656" rpy="0 0 0"/>
+      <mass value="3.63498"/>
+      <inertia ixx="0.0019579" ixy="-8.178e-09" ixz="3.5034e-08" iyy="0.0666534" iyz="-1.2548e-08" izz="0.0662806"/>
+    </inertial>
+    <!-- Part arm3 -->
+    <visual>
+      <origin xyz="0 0 -0.0536656" rpy="1.5708 1.5708 0"/>
+      <geometry>
+        <mesh filename="file:///home/menglin/ROS2/src/py_package/meshes/assets/arm3.stl"/>
+      </geometry>
+      <material name="arm3_material">
+        <color rgba="0.615686 0.811765 0.929412 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 -0.0536656" rpy="1.5708 1.5708 0"/>
+      <geometry>
+        <mesh filename="file:///home/menglin/ROS2/src/py_package/meshes/assets/arm3.stl"/>
+      </geometry>
+    </collision>
+  </link>
+  <!-- Joint from arm3_base to arm3 -->
+  <joint name="arm3" type="revolute">
+    <origin xyz="-0.0536635 0 -0.08" rpy="3.14159 1.5708 0"/>
+    <parent link="arm3_base"/>
+    <child link="arm3"/>
+    <axis xyz="0 0 1"/>
+    <limit effort="10" velocity="10" lower="-3.141592653589793" upper="3.141592653589793"/>
+  </joint>
+  <!-- Joint from arm2 to arm3_base -->
+  <joint name="arm3_base" type="revolute">
+    <origin xyz="0.825 -0 -0.0536656" rpy="-3.14159 1.5708 0"/>
+    <parent link="arm2"/>
+    <child link="arm3_base"/>
+    <axis xyz="0 0 1"/>
+    <limit effort="10" velocity="10" lower="-3.141592653589793" upper="3.141592653589793"/>
+  </joint>
   <!-- Joint from arm2_base to arm2 -->
   <joint name="arm2" type="revolute">
-    <origin xyz="0.0536635 -0 -0.87" rpy="-3.14159 1.5708 0"/>
+    <origin xyz="-0.0536635 0 -0.08" rpy="-3.14159 1.5708 0"/>
     <parent link="arm2_base"/>
     <child link="arm2"/>
     <axis xyz="0 0 1"/>
@@ -132,7 +196,7 @@
   </joint>
   <!-- Joint from arm1 to arm2_base -->
   <joint name="arm2_base" type="revolute">
-    <origin xyz="0.085 -0 -0.0536656" rpy="3.14159 1.5708 0"/>
+    <origin xyz="0.825 -0 -0.0536656" rpy="3.14159 1.5708 0"/>
     <parent link="arm1"/>
     <child link="arm2_base"/>
     <axis xyz="0 0 1"/>
@@ -140,7 +204,7 @@
   </joint>
   <!-- Joint from arm1_base to arm1 -->
   <joint name="arm1" type="revolute">
-    <origin xyz="0.0536635 0 -0.87" rpy="-0 1.5708 0"/>
+    <origin xyz="-0.0536635 0 -0.18" rpy="3.14159 1.5708 0"/>
     <parent link="arm1_base"/>
     <child link="arm1"/>
     <axis xyz="0 0 1"/>
@@ -148,7 +212,7 @@
   </joint>
   <!-- Joint from base_link to arm1_base -->
   <joint name="arm1_base" type="revolute">
-    <origin xyz="-0 0 0.1" rpy="-3.14159 -0 0"/>
+    <origin xyz="0 0 0.14" rpy="3.14159 0 0"/>
     <parent link="base_link"/>
     <child link="arm1_base"/>
     <axis xyz="0 0 1"/>

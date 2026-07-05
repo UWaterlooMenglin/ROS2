@@ -30,8 +30,8 @@ class RobotController(Node):
         position = (pi / 2) * sin(((2 * pi) / 5) * now_sec)
         
         jointState.header.stamp = now.to_msg()
-        jointState.name = ["arm1_base", "arm1", "arm2_base", "arm2"]
-        jointState.position = [0.0, position, 0.0, position]
+        jointState.name = ["arm1_base", "arm1", "arm2_base", "arm2", "arm3_base", "arm3"]
+        jointState.position = [position, position, position, position, position, position]
         self._joint_states_publisher.publish(jointState)
         
         self._marker.header.stamp = now.to_msg()
