@@ -14,11 +14,10 @@ class RobotController(Node):
     def __init__(self):
         super().__init__("robot_controller")
         self._logger = self.get_logger()
-        self._joint_states_publisher = self.create_publisher(JointState, "/joint_states", 5)
         self._setpoint_publisher = self.create_publisher(Marker, "/setpoint", 5)
         self._marker_publisher = self.create_publisher(Marker, "/marker", 5)
+        self._joint_states_publisher = self.create_publisher(JointState, "/joint_states", 5)
 
-        self._joint_states = np.array([0.0, 0.0, 0.0, 0.0, 0.0, 0.0])
         self._base_link_setpoint = np.array([1.0, 1.0, 1.0, 1.0])
         self._setpoint = Marker(
             header=Header(stamp=self.get_clock().now().to_msg(), frame_id="base_link"),
@@ -29,6 +28,7 @@ class RobotController(Node):
             scale=Vector3(x=0.05, y=0.1, z=0.0),
             color=ColorRGBA(r=255.0, g=0.0, b=0.0, a=1.0),
         )
+        self._joint_states = np.array([0.0, pi / 4.0, 0.0, -pi / 2.0, 0.0, -pi / 2.0])
         self._marker = Marker(
             header=Header(stamp=self.get_clock().now().to_msg(), frame_id="base_link"),
             ns="marker",
@@ -153,7 +153,8 @@ class RobotController(Node):
                 jacobian[1][i] = (y - end_effector_in_base_link[1]) / epsilon
                 jacobian[2][i] = (z - end_effector_in_base_link[2]) / epsilon
             states_change = np.linalg.pinv(jacobian) @ error
-            self._joint_states += epsilon * states_change
+            for i in range(len(self._joint_states)):
+                self._joint_states[i] += min(0.01 * states_change[i], 0.125)
         else:
             self._base_link_setpoint[random.randint(0, 1)] *= -1
             self._base_link_setpoint[2] = random.uniform(1.5, 2.0)
