@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>6-DOF IK Solver — Real-Time Robot Arm Control | Menglin Wang</title>
     <meta name="description" content="A real-time numerical inverse kinematics solver for 6-DOF robot arms, built with ROS2 and the Jacobian pseudo-inverse method.">
+    <link rel="icon" type="image/png" href="assets/ros2-favicon.png">
     <link rel="stylesheet" href="style.css">
     <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 </head>
@@ -34,7 +35,7 @@
                     Operating directly as a ROS2 node which delivers smooth manipulator trajectories at a deterministic 50 Hz.
                 </p>
                 <div class="demo-container fade-up fade-up-d3">
-                    <video src="assets/ROS2-demo.mp4" class="demo" controls loop muted playsinline></video>
+                    <video src="assets/ros2-demo.mp4" class="demo" controls loop muted playsinline></video>
                 </div>
             </div>
         </header>
@@ -244,37 +245,37 @@
                         Determining the current spatial position of the manipulator requires chaining coordinate frame mappings from the base mount to the end-effector. This homogeneous transformation matrix is resolved using the configuration vector:
                     </p>
                     <div class="math-expression">
-                        \[ T_{ee} = T_0^1(q_1) \cdot T_1^2(q_2) \cdot \dots \cdot T_5^6(q_6) \cdot T_6^{ee} \]
+                        \[ T_{fk}(\vec{θ}) = T_1(θ_1) \cdot T_2(θ_2) \cdot \dots \cdot T_6(θ_6) \cdot T_{ee} \]
                     </div>
                     <p>
-                        This chaining function uses dimensions extracted from the robot geometry parameters to convert joint rotations into a single 4x4 matrix defining Cartesian frame coordinate properties.
+                        This chaining function uses dimensions extracted from the robot geometry parameters file(URDF file) to convert joint rotations into a single 4x4 matrix defining Cartesian frame coordinate properties.
                     </p>
                 </div>
                 <div class="deep-dive-block">
                     <h2>Jacobian Mapping & Pseudo-Inverse</h2>
                     <p>
-                        The Jacobian matrix maps velocities between joint rotation space and Cartesian movement coordinate directions:
+                        The Jacobian matrix maps velocities between joints' rotation space and Cartesian movement space:
                     </p>
                     <div class="math-expression">
-                        \[ \dot{x} = J(q)\dot{q} \]
+                        \[ \vec{v} = J(\vec{θ}) \cdot \vec{ω} \]
                     </div>
                     <p>
-                        Because our controller node needs to translate a desired movement vector into coordinate updates for the manipulator joints, we solve this relationship using the Moore-Penrose pseudo-inverse representation:
+                        Because the controller node needs to translate a desired movement vector into state updates for the manipulator joints, this relationship was solved using the Moore-Penrose pseudo-inverse representation:
                     </p>
                     <div class="math-expression">
-                        \[ \Delta q = J^\dagger \Delta x = J^T(JJ^T)^{-1}\Delta x \]
+                        \[ \Delta \vec{θ} = J^T \cdot (JJ^T)^{-1} \cdot \vec{d}_{error} \]
                     </div>
                     <p>
-                        This mathematical mapping identifies the joint coordinate movements that satisfy positional requests while minimizing displacement magnitude, helping resolve redundant joint paths.
+                        This mathematical mapping identifies the joints' state updates that satisfy positional setpoints while minimizing displacement magnitude, helping resolve redundant joint paths.
                     </p>
                 </div>
                 <div class="deep-dive-block">
                     <h2>Numerical Perturbation Solver</h2>
                     <p>
-                        To ensure that this controller node can run on multiple designs without manual configuration, the columns of the Jacobian are evaluated numerically. The joint configurations are perturbed by a small interval $\epsilon$:
+                        To ensure that this controller node can run on multiple designs without manual configuration, the columns of the Jacobian are evaluated numerically.<br>The joint configurations are perturbed by a small interval ε( = 0.01):
                     </p>
                     <div class="math-expression">
-                        \[ J_{col,j} = \frac{FK(q + \epsilon e_j) - FK(q)}{\epsilon} \]
+                        \[ J_{row,j} = \frac{T_{fk}(\vec{θ} + \epsilon \cdot \hat{e}_j) - T_{fk}(\vec{θ})}{\epsilon} \]
                     </div>
                     <p>
                         This numerical approximation extracts directional sensitivities using only the Forward Kinematics function, making the solver compatible with arbitrary joint structure modifications.
@@ -539,7 +540,7 @@
     const codeTabContents = [
         {
             filename: "forward_kinematics.py",
-            explanation: "Chains coordinate transformations. Multiplies <strong>7 homogeneous transformation matrices</strong> using joint variables <code>q1</code> through <code>q6</code> to project link orientations directly into end-effector Cartesian pose coordinate variables.",
+            explanation: "Chains coordinate transformations. Multiplies <strong>7 homogeneous transformation matrices</strong> using joint variables <code>t1</code> through <code>t6</code> and the end-effector transformation, <code>t7</code>, to project link orientations directly into end-effector Cartesian coordinate pose variables.",
             code: `def forward(self, joint_states):\n    state1, state2, state3, state4, state5, state6 = joint_states\n    t1 = np.array([\n        [cos(state1), -sin(state1), 0.0, 0.0],\n        [-sin(state1), -cos(state1), 0.0, 0.0],\n        [0.0, 0.0, -1.0, 0.14],\n        [0.0, 0.0, 0.0, 1.0]\n    ])\n    # ... (chains transformations for links t2 through t7)\n    return t1 @ t2 @ t3 @ t4 @ t5 @ t6 @ t7 @ np.array([0.0, 0.0, 0.0, 1.0])`
         },
         {
@@ -550,7 +551,7 @@
         {
             filename: "pseudo_inverse_solve.py",
             explanation: "Computes optimal updates. Uses the <strong>Moore-Penrose Pseudo-Inverse</strong> (via NumPy's SVD <code>pinv</code>) to calculate the joint increments vector <code>states_change</code> that minimizes displacement norms to satisfy Cartesian tracking target errors.",
-            code: `# Positional tracking error vector\nerror = setpoint[:3] - end_effector[:3]\n\nif np.linalg.norm(error) >= epsilon:\n    # Resolve joint adjustments: dq = J† * e\n    states_change = np.linalg.pinv(jacobian) @ error`
+            code: `# Positional tracking error vector\nerror = setpoint[:3] - end_effector[:3]\n\nif np.linalg.norm(error) >= epsilon:\n    # Resolve joint adjustments: dq = J^-1 * error\n    states_change = np.linalg.pinv(jacobian) @ error`
         },
         {
             filename: "safety_constraints.py",
