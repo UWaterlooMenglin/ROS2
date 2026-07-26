@@ -6,58 +6,40 @@
     <title>6-DOF IK Solver — Real-Time Robot Arm Control | Menglin Wang</title>
     <meta name="description" content="A real-time numerical inverse kinematics solver for 6-DOF robot arms, built with ROS2 and the Jacobian pseudo-inverse method.">
     <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 </head>
 <body>
 
-    <!-- Particle Background -->
     <canvas id="particle-canvas"></canvas>
 
-    <!-- Navigation -->
     <nav class="nav">
         <div class="container">
             <div class="nav-brand">menglin<span>.robotics</span></div>
             <ul class="nav-links">
-                <li><a href="#" onclick="routeTo('#overview')">Overview</a></li>
-                <li><a href="#" onclick="routeTo('#telemetry')">Telemetry</a></li>
-                <li><a href="#" onclick="routeTo('#architecture')">Architecture</a></li>
-                <li><a href="#" onclick="routeTo('#walkthrough')">Code Walkthrough</a></li>
+                <li><a href="#overview">Overview</a></li>
+                <li><a href="#architecture">Architecture</a></li>
+                <li><a href="#walkthrough">Code Walkthrough</a></li>
                 <li><a href="#deep-dive">Technical Deep-Dive</a></li>
             </ul>
         </div>
     </nav>
 
-    <!-- ====================================================
-         SUMMARY VIEW
-         ==================================================== -->
     <div id="summary-view" class="view-container">
-        
-        <!-- Hero Section -->
         <header class="hero" id="overview">
             <div class="container">
-                <div class="hero-badge fade-up">ROS2 Humble · Python · NumPy · RViz2</div>
-                <h1 class="fade-up fade-up-d1">Real-Time Inverse Kinematics<br>for 6-DOF Robot Arms</h1>
+                <p class="hero-title fade-up fade-up-d1">Real-Time Inverse Kinematics<br>for 6-DOF Robot Arms</p>
+                <div class="hero-badge fade-up">ROS2 Jazzy · Python · NumPy · RViz2</div>
                 <p class="hero-summary fade-up fade-up-d2">
-                    A numerical IK solver designed to map target Cartesian coordinate goals into joint positions. 
-                    Operating directly as a ROS2 node, it delivers smooth manipulator trajectories at a deterministic 50 Hz.
+                    A numerical IK solver designed to map Cartesian coordinate setpoints into joint positions. 
+                    Operating directly as a ROS2 node which delivers smooth manipulator trajectories at a deterministic 50 Hz.
                 </p>
-
                 <div class="demo-container fade-up fade-up-d3">
-                    <img src="assets/demo.gif" alt="Robot arm tracking targets in RViz2" class="demo-gif">
-                    <div class="img-placeholder-text">RViz2 Simulator - Active Trajectory Tracking</div>
-                </div>
-
-                <div style="display: flex; gap: 1rem; justify-content: center;" class="fade-up fade-up-d4">
-                    <a href="#deep-dive" class="cta-button">
-                        Read Technical Deep-Dive
-                    </a>
-                    <a href="https://github.com/UWaterlooMenglin/ROS2" target="_blank" class="cta-button" style="background: transparent; border: 1px solid var(--border-hover); color: var(--accent); box-shadow: none;">
-                        GitHub Repository
-                    </a>
+                    <video src="assets/ROS2-demo.mp4" class="demo" controls loop muted playsinline></video>
                 </div>
             </div>
         </header>
 
-        <!-- Live Telemetry Monitor Section (NEW Content integration) -->
+        <!-- TODO: Telemetry / Live Monitor section (commented out pending implementation)
         <section class="console-section" id="telemetry">
             <div class="container">
                 <div class="section-label">Live Monitor</div>
@@ -65,29 +47,24 @@
                 <p style="color: var(--text-secondary); margin-bottom: 2rem; max-width: 600px;">
                     This interactive telemetry panel demonstrates live feedback from the ROS2 controller node during end-effector target pursuit. Values represent coordinate updates and joint angles solved in real time.
                 </p>
-                
                 <div class="console-panel">
                     <div class="console-header">
                         <div class="console-title">ROBOT CONTROLLER NODE STATUS</div>
                         <div class="console-badge glowing" id="console-status">SOLVER CONVERGED</div>
                     </div>
                     <div class="console-grid">
-                        <!-- Card 1 -->
                         <div class="console-card">
                             <div class="console-label">Target Position (Setpoint)</div>
                             <div class="console-val active" id="tel-target">X: 0.854m / Y: -0.210m / Z: 1.450m</div>
                         </div>
-                        <!-- Card 2 -->
                         <div class="console-card">
                             <div class="console-label">End-Effector Pose (FK Output)</div>
                             <div class="console-val" id="tel-current">X: 0.852m / Y: -0.208m / Z: 1.451m</div>
                         </div>
-                        <!-- Card 3 -->
                         <div class="console-card">
                             <div class="console-label">Cartesian Error Vector</div>
                             <div class="console-val" id="tel-error" style="color: #28c840;">Δx: 0.003m</div>
                         </div>
-                        <!-- Card 4 -->
                         <div class="console-card">
                             <div class="console-label">Active Joint Angles (q Vector)</div>
                             <div class="joint-list">
@@ -99,12 +76,10 @@
                                 <div class="joint-row"><span>q6:</span><span id="tel-q6">-1.571 rad</span></div>
                             </div>
                         </div>
-                        <!-- Card 5 -->
                         <div class="console-card">
                             <div class="console-label">Control Loop Rate</div>
                             <div class="console-val">50.0 Hz</div>
                         </div>
-                        <!-- Card 6 -->
                         <div class="console-card">
                             <div class="console-label">Numerical Jacobian Stability</div>
                             <div class="console-val" id="tel-jacobian" style="color: var(--accent-secondary);">Cond: 4.82</div>
@@ -113,8 +88,8 @@
                 </div>
             </div>
         </section>
+        -->
 
-        <!-- Capabilities Section -->
         <section class="stats-section" id="capabilities">
             <div class="container">
                 <div class="section-label">Solver Core</div>
@@ -129,18 +104,17 @@
                         <p>Executes at a deterministic update period to provide rapid trajectory convergence and steady state monitoring.</p>
                     </div>
                     <div class="stat-card">
-                        <h3>J† PSEUDO-INVERSE</h3>
+                        <h3>PSEUDO JACOBIAN^-1</h3>
                         <p>Leverages robust numerical matrix inversion to resolve positional updates while minimizing total joint displacements.</p>
                     </div>
                     <div class="stat-card">
-                        <h3>ROS2 HUMBLE NATIVE</h3>
+                        <h3>ROS2 JAZZY NATIVE</h3>
                         <p>Integrates directly with ROS2 communication frameworks, publishing to robot tf stacks without intermediate layers.</p>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- System Architecture (NEW Redesigned Diagram) -->
         <section class="logic-flow" id="architecture">
             <div class="container">
                 <div class="section-label">Dataflow</div>
@@ -148,9 +122,7 @@
                 <p style="color: var(--text-secondary); max-width: 600px; margin: 0 auto 3rem; text-align: center;">
                     Overview of the communication interfaces and calculation loops that drive the active robotic state.
                 </p>
-
                 <div class="arch-diagram-container">
-                    <!-- Row 1: Inputs & Error -->
                     <div class="arch-row">
                         <div class="arch-card highlight-card">
                             <h4>Target Input</h4>
@@ -162,11 +134,7 @@
                             <p>Computes positional vector Δx = target − FK(q)</p>
                         </div>
                     </div>
-
-                    <!-- Connect Down -->
                     <div style="text-align: center; color: var(--text-muted); font-size: 1.2rem; user-select: none;">↓</div>
-
-                    <!-- Row 2: Matrix Solve & Limits -->
                     <div class="arch-row">
                         <div class="arch-card">
                             <h4>Jacobian Perturbation</h4>
@@ -183,11 +151,7 @@
                             <p>Clamps output rates to stay within physical hardware limits</p>
                         </div>
                     </div>
-
-                    <!-- Connect Down -->
                     <div style="text-align: center; color: var(--text-muted); font-size: 1.2rem; user-select: none;">↓</div>
-
-                    <!-- Row 3: Output -->
                     <div class="arch-row">
                         <div class="arch-card highlight-card">
                             <h4>Joint States Publisher</h4>
@@ -199,8 +163,6 @@
                             <p>Visualizes robot model pose dynamically</p>
                         </div>
                     </div>
-
-                    <!-- Feedback Loop -->
                     <div class="arch-loopback">
                         <span>Feedback Path</span>: Current Joint Vector q feeds back into the Error Evaluation block for the next control iteration
                     </div>
@@ -208,7 +170,6 @@
             </div>
         </section>
 
-        <!-- Interactive Code Walkthrough (NEW Content integration) -->
         <section class="code-walkthrough-section" id="walkthrough">
             <div class="container">
                 <div class="section-label">Code Walkthrough</div>
@@ -216,17 +177,13 @@
                 <p style="color: var(--text-secondary); max-width: 600px;">
                     Select an algorithm step below to inspect its functional Python code from the active solver node.
                 </p>
-
                 <div class="code-walkthrough-layout">
-                    <!-- Tabs -->
                     <div class="code-tabs">
                         <button class="code-tab-btn active" onclick="selectCodeTab(0)">1. Forward Kinematics</button>
                         <button class="code-tab-btn" onclick="selectCodeTab(1)">2. Numerical Jacobian</button>
                         <button class="code-tab-btn" onclick="selectCodeTab(2)">3. Pseudo-Inverse Solve</button>
                         <button class="code-tab-btn" onclick="selectCodeTab(3)">4. Safety Constraints</button>
                     </div>
-
-                    <!-- Pane -->
                     <div class="code-pane-container">
                         <div class="code-header">
                             <div class="code-dots"><span></span><span></span><span></span></div>
@@ -243,7 +200,6 @@
             </div>
         </section>
 
-        <!-- Tech Stack -->
         <section class="tech-section" id="stack">
             <div class="container">
                 <div class="section-label">Built With</div>
@@ -251,7 +207,7 @@
                 <div class="tech-grid">
                     <div class="tech-item">
                         <div class="tech-icon">⚙️</div>
-                        <div class="tech-name">ROS2 Humble</div>
+                        <div class="tech-name">ROS2 Jazzy</div>
                         <div class="tech-desc">Provides the pub/sub middleware architecture</div>
                     </div>
                     <div class="tech-item">
@@ -272,61 +228,58 @@
                 </div>
             </div>
         </section>
-
     </div>
 
-    <!-- ====================================================
-         TECHNICAL DEEP-DIVE VIEW (NEW Transition Page)
-         ==================================================== -->
     <div id="deep-dive-view" class="view-container view-hidden">
         <div class="deep-dive-view-container">
-            <div class="back-navigation">
-                <a href="#" class="back-btn" onclick="routeTo('#overview')">← Back to Overview</a>
-            </div>
-
+            <div class="back-navigation"></div>
             <header class="deep-dive-header">
                 <h1>Technical Deep-Dive</h1>
                 <p>Mathematical structures and parameters of the numerical Inverse Kinematics solver.</p>
             </header>
-
             <article>
                 <div class="deep-dive-block">
                     <h2>Forward Kinematics</h2>
                     <p>
                         Determining the current spatial position of the manipulator requires chaining coordinate frame mappings from the base mount to the end-effector. This homogeneous transformation matrix is resolved using the configuration vector:
                     </p>
-                    <div class="math-expression">T_ee = T_0^1(q_1) * T_1^2(q_2) * ... * T_5^6(q_6) * T_6^ee</div>
+                    <div class="math-expression">
+                        \[ T_{ee} = T_0^1(q_1) \cdot T_1^2(q_2) \cdot \dots \cdot T_5^6(q_6) \cdot T_6^{ee} \]
+                    </div>
                     <p>
                         This chaining function uses dimensions extracted from the robot geometry parameters to convert joint rotations into a single 4x4 matrix defining Cartesian frame coordinate properties.
                     </p>
                 </div>
-
                 <div class="deep-dive-block">
                     <h2>Jacobian Mapping & Pseudo-Inverse</h2>
                     <p>
                         The Jacobian matrix maps velocities between joint rotation space and Cartesian movement coordinate directions:
                     </p>
-                    <div class="math-expression">dx = J(q) * dq</div>
+                    <div class="math-expression">
+                        \[ \dot{x} = J(q)\dot{q} \]
+                    </div>
                     <p>
                         Because our controller node needs to translate a desired movement vector into coordinate updates for the manipulator joints, we solve this relationship using the Moore-Penrose pseudo-inverse representation:
                     </p>
-                    <div class="math-expression">dq = J† * dx = J^T * (J * J^T)^-1 * dx</div>
+                    <div class="math-expression">
+                        \[ \Delta q = J^\dagger \Delta x = J^T(JJ^T)^{-1}\Delta x \]
+                    </div>
                     <p>
                         This mathematical mapping identifies the joint coordinate movements that satisfy positional requests while minimizing displacement magnitude, helping resolve redundant joint paths.
                     </p>
                 </div>
-
                 <div class="deep-dive-block">
                     <h2>Numerical Perturbation Solver</h2>
                     <p>
-                        To ensure that this controller node can run on multiple designs without manual configuration, the columns of the Jacobian are evaluated numerically. The joint configurations are perturbed by a small interval ε:
+                        To ensure that this controller node can run on multiple designs without manual configuration, the columns of the Jacobian are evaluated numerically. The joint configurations are perturbed by a small interval $\epsilon$:
                     </p>
-                    <div class="math-expression">J_col_j = ( FK(q + ε * e_j) - FK(q) ) / ε</div>
+                    <div class="math-expression">
+                        \[ J_{col,j} = \frac{FK(q + \epsilon e_j) - FK(q)}{\epsilon} \]
+                    </div>
                     <p>
                         This numerical approximation extracts directional sensitivities using only the Forward Kinematics function, making the solver compatible with arbitrary joint structure modifications.
                     </p>
                 </div>
-
                 <div class="deep-dive-block">
                     <h2>Controller Safety Governor</h2>
                     <p>
@@ -360,14 +313,10 @@
                     </table>
                 </div>
             </article>
-
-            <div style="margin-top: 4rem; text-align: center;">
-                <a href="#" class="back-btn" onclick="routeTo('#overview')">← Return to Main Page</a>
-            </div>
+            <div style="margin-top: 4rem; text-align: center;"></div>
         </div>
     </div>
 
-    <!-- Footer -->
     <footer class="footer">
         <div class="container">
             <p>&copy; 2026 Menglin Wang · University of Waterloo</p>
@@ -379,17 +328,15 @@
         </div>
     </footer>
 
-    <!-- Particle System & Navigation Script -->
     <script>
     (function() {
         const canvas = document.getElementById('particle-canvas');
         const ctx = canvas.getContext('2d');
 
-        // --- Configuration ---
-        const PARTICLE_COUNT = 480;      // High particle density
-        const BASE_ALPHA = 0.05;         // Faint background alpha
-        const BASE_SIZE = 1.2;           // Faint background size
-        const LIMIT_RADIUS = 360;        // Expanded boundary ring radius
+        const PARTICLE_COUNT = 480;
+        const BASE_ALPHA = 0.05;
+        const BASE_SIZE = 1.2;
+        const LIMIT_RADIUS = 360;
         const ACCENT_R = 0;
         const ACCENT_G = 212;
         const ACCENT_B = 255;
@@ -410,7 +357,7 @@
                 particles.push({
                     baseX: Math.random() * w,
                     baseY: Math.random() * h,
-                    vx: (Math.random() - 0.5) * 0.15, // slow drift
+                    vx: (Math.random() - 0.5) * 0.15,
                     vy: (Math.random() - 0.5) * 0.15,
                     x: 0,
                     y: 0,
@@ -425,67 +372,40 @@
         function animate() {
             ctx.clearRect(0, 0, w, h);
             time += 1;
-
             const isMouseActive = mouse.x !== -9999 && mouse.y !== -9999;
-
             for (let i = 0; i < particles.length; i++) {
                 const p = particles[i];
-
-                // 1. Natural slow background drift
                 p.baseX += p.vx;
                 p.baseY += p.vy;
-
-                // Edge wrapping
                 if (p.baseX < 0) p.baseX = w;
                 if (p.baseX > w) p.baseX = 0;
                 if (p.baseY < 0) p.baseY = h;
                 if (p.baseY > h) p.baseY = 0;
-
-                // 2. Distance from mouse to particle base position
                 const dx = p.baseX - mouse.x;
                 const dy = p.baseY - mouse.y;
                 const dist = Math.sqrt(dx * dx + dy * dy);
-
                 if (isMouseActive && dist < LIMIT_RADIUS) {
-                    // Particle is inside the boundary ring - it EMERGES
                     const angle = Math.atan2(dy, dx);
-                    
-                    // Gentler outward propagating mechanical wave: sin(k * r - omega * t)
                     const wave1 = Math.sin(dist * 0.02 - time * 0.02) * 8;
                     const wave2 = Math.sin(dist * 0.04 - time * 0.04) * 2.5;
-
-                    // Smooth boundary fading proximity factor (1 at center, 0 at ring edge)
                     const proximity = 1 - (dist / LIMIT_RADIUS);
-                    
-                    // Combine waves and scale amplitude by proximity so they damp to zero at the boundary
                     const radialPulse = (wave1 + wave2) * proximity;
-
-                    // Displace particle purely radially (no rotation)
                     p.x = p.baseX + Math.cos(angle) * radialPulse;
                     p.y = p.baseY + Math.sin(angle) * radialPulse;
-
-                    // Emerge (glow & grow) dynamically inside the ring
                     p.targetAlpha = BASE_ALPHA + proximity * 0.70;
                     p.targetSize = BASE_SIZE + proximity * 1.6;
                 } else {
-                    // Outside the boundary ring - faint background state
                     p.x = p.baseX;
                     p.y = p.baseY;
                     p.targetAlpha = BASE_ALPHA;
                     p.targetSize = BASE_SIZE;
                 }
-
-                // Smooth transitions
                 p.alpha += (p.targetAlpha - p.alpha) * 0.08;
                 p.size += (p.targetSize - p.size) * 0.08;
-
-                // Draw core point
                 ctx.beginPath();
                 ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
                 ctx.fillStyle = `rgba(${ACCENT_R}, ${ACCENT_G}, ${ACCENT_B}, ${p.alpha})`;
                 ctx.fill();
-
-                // Draw soft glow halo
                 if (p.alpha > 0.15) {
                     ctx.beginPath();
                     ctx.arc(p.x, p.y, p.size * 2.5, 0, Math.PI * 2);
@@ -493,35 +413,26 @@
                     ctx.fill();
                 }
             }
-
             requestAnimationFrame(animate);
         }
 
-        // --- Events ---
         window.addEventListener('resize', () => {
             resize();
             createParticles();
         });
-
         document.addEventListener('mousemove', (e) => {
             mouse.x = e.clientX;
             mouse.y = e.clientY;
         });
-
         document.addEventListener('mouseleave', () => {
             mouse.x = -9999;
             mouse.y = -9999;
         });
-
-        // --- Init ---
         resize();
         createParticles();
         animate();
     })();
 
-    // ====================================================
-    // SINGLE PAGE NAVIGATION ROUTING
-    // ====================================================
     function routeTo(hash) {
         const summaryView = document.getElementById('summary-view');
         const deepDiveView = document.getElementById('deep-dive-view');
@@ -534,19 +445,21 @@
         } else {
             deepDiveView.classList.add('view-hidden');
             summaryView.classList.remove('view-hidden');
-            window.location.hash = '';
-            
-            // If target anchor is on page, scroll to it
-            if (hash && hash !== '#') {
+            if (hash === '#overview') {
+                window.location.hash = '';
+                window.scrollTo(0, 0);
+            } else if (hash && hash !== '#') {
+                window.location.hash = hash.substring(1);
                 const targetElement = document.querySelector(hash);
                 if (targetElement) {
                     targetElement.scrollIntoView({ behavior: 'smooth' });
                 }
+            } else {
+                window.location.hash = '';
             }
         }
     }
 
-    // Intercept clicks on links that go to deep-dive
     document.addEventListener('click', function(e) {
         const link = e.target.closest('a');
         if (link) {
@@ -561,7 +474,6 @@
         }
     });
 
-    // Check location hash on load
     window.addEventListener('load', function() {
         if (window.location.hash === '#deep-dive') {
             routeTo('#deep-dive');
@@ -570,7 +482,6 @@
         }
     });
 
-    // Handle back/forward history buttons
     window.addEventListener('hashchange', function() {
         if (window.location.hash === '#deep-dive') {
             routeTo('#deep-dive');
@@ -579,54 +490,38 @@
         }
     });
 
-    // ====================================================
-    // LIVE TELEMETRY SIMULATION LOOP
-    // ====================================================
+    /* TODO: Telemetry simulation loop (commented out pending implementation)
     let telemetryTime = 0;
     setInterval(() => {
         telemetryTime += 1;
         const statusBadge = document.getElementById('console-status');
-        
-        // Target setpoint coordinate calculations
         const targetX = 0.850 + Math.sin(telemetryTime * 0.04) * 0.08;
         const targetY = -0.210 + Math.cos(telemetryTime * 0.05) * 0.05;
         const targetZ = 1.450 + Math.sin(telemetryTime * 0.03) * 0.03;
-        
-        // End-effector coordinates trace setpoint target with dynamic tracking lag
         const lagX = targetX + Math.sin(telemetryTime * 0.12) * 0.0015;
         const lagY = targetY + Math.cos(telemetryTime * 0.15) * 0.0012;
         const lagZ = targetZ + Math.sin(telemetryTime * 0.10) * 0.0011;
-        
         const errX = targetX - lagX;
         const errY = targetY - lagY;
         const errZ = targetZ - lagZ;
         const errNorm = Math.sqrt(errX*errX + errY*errY + errZ*errZ);
-
-        // Update coordinate labels
         document.getElementById('tel-target').innerText = `X: ${targetX.toFixed(3)}m / Y: ${targetY.toFixed(3)}m / Z: ${targetZ.toFixed(3)}m`;
         document.getElementById('tel-current').innerText = `X: ${lagX.toFixed(3)}m / Y: ${lagY.toFixed(3)}m / Z: ${lagZ.toFixed(3)}m`;
         document.getElementById('tel-error').innerText = `Δx: ${errNorm.toFixed(4)}m`;
-
-        // Update simulated joint angles (q1...q6)
         const q1 = Math.sin(telemetryTime * 0.04) * 0.2 + 0.125;
         const q2 = Math.cos(telemetryTime * 0.05) * 0.15 + 0.785;
         const q3 = Math.sin(telemetryTime * 0.03) * 0.12 + 0.021;
         const q4 = -1.571 + Math.cos(telemetryTime * 0.04) * 0.05;
         const q5 = Math.sin(telemetryTime * 0.06) * 0.08;
         const q6 = -1.571 + Math.sin(telemetryTime * 0.05) * 0.1;
-
         document.getElementById('tel-q1').innerText = `${q1.toFixed(3)} rad`;
         document.getElementById('tel-q2').innerText = `${q2.toFixed(3)} rad`;
         document.getElementById('tel-q3').innerText = `${q3.toFixed(3)} rad`;
         document.getElementById('tel-q4').innerText = `${q4.toFixed(3)} rad`;
         document.getElementById('tel-q5').innerText = `${q5.toFixed(3)} rad`;
         document.getElementById('tel-q6').innerText = `${q6.toFixed(3)} rad`;
-
-        // Cond number oscillation
         const cond = 4.2 + Math.abs(Math.sin(telemetryTime * 0.03)) * 2.8;
         document.getElementById('tel-jacobian').innerText = `Cond: ${cond.toFixed(2)}`;
-
-        // Status update
         if (errNorm > 0.004) {
             statusBadge.innerText = "SOLVER ACTIVE";
             statusBadge.style.color = "var(--accent)";
@@ -639,74 +534,43 @@
             statusBadge.style.background = "rgba(40, 200, 64, 0.1)";
         }
     }, 100);
+    */
 
-    // ====================================================
-    // INTERACTIVE CODE WALKTHROUGH TABS
-    // ====================================================
     const codeTabContents = [
         {
             filename: "forward_kinematics.py",
             explanation: "Chains coordinate transformations. Multiplies <strong>7 homogeneous transformation matrices</strong> using joint variables <code>q1</code> through <code>q6</code> to project link orientations directly into end-effector Cartesian pose coordinate variables.",
-            code: `def forward(self, joint_states):
-    state1, state2, state3, state4, state5, state6 = joint_states
-    t1 = np.array([
-        [cos(state1), -sin(state1), 0.0, 0.0],
-        [-sin(state1), -cos(state1), 0.0, 0.0],
-        [0.0, 0.0, -1.0, 0.14],
-        [0.0, 0.0, 0.0, 1.0]
-    ])
-    # ... (chains transformations for links t2 through t7)
-    return t1 @ t2 @ t3 @ t4 @ t5 @ t6 @ t7 @ np.array([0.0, 0.0, 0.0, 1.0])`
+            code: `def forward(self, joint_states):\n    state1, state2, state3, state4, state5, state6 = joint_states\n    t1 = np.array([\n        [cos(state1), -sin(state1), 0.0, 0.0],\n        [-sin(state1), -cos(state1), 0.0, 0.0],\n        [0.0, 0.0, -1.0, 0.14],\n        [0.0, 0.0, 0.0, 1.0]\n    ])\n    # ... (chains transformations for links t2 through t7)\n    return t1 @ t2 @ t3 @ t4 @ t5 @ t6 @ t7 @ np.array([0.0, 0.0, 0.0, 1.0])`
         },
         {
             filename: "numerical_jacobian.py",
             explanation: "Estimates Cartesian sensitivities. Iterates through the joint array to perturb each angle by <code>epsilon = 0.01</code>, and computes numerical derivatives for each coordinate direction to build the <strong>3x6 Jacobian Matrix</strong> columns without analytical complexity.",
-            code: `jacobian = np.zeros((3, 6))
-for i in range(len(self._joint_states)):
-    joint_states = [*self._joint_states]
-    joint_states[i] += epsilon
-    x, y, z, _ = self.forward(joint_states)
-    jacobian[0][i] = (x - end_effector[0]) / epsilon
-    jacobian[1][i] = (y - end_effector[1]) / epsilon
-    jacobian[2][i] = (z - end_effector[2]) / epsilon`
+            code: `jacobian = np.zeros((3, 6))\nfor i in range(len(self._joint_states)):\n    joint_states = [*self._joint_states]\n    joint_states[i] += epsilon\n    x, y, z, _ = self.forward(joint_states)\n    jacobian[0][i] = (x - end_effector[0]) / epsilon\n    jacobian[1][i] = (y - end_effector[1]) / epsilon\n    jacobian[2][i] = (z - end_effector[2]) / epsilon`
         },
         {
             filename: "pseudo_inverse_solve.py",
             explanation: "Computes optimal updates. Uses the <strong>Moore-Penrose Pseudo-Inverse</strong> (via NumPy's SVD <code>pinv</code>) to calculate the joint increments vector <code>states_change</code> that minimizes displacement norms to satisfy Cartesian tracking target errors.",
-            code: `# Positional tracking error vector
-error = setpoint[:3] - end_effector[:3]
-
-if np.linalg.norm(error) >= epsilon:
-    # Resolve joint adjustments: dq = J† * e
-    states_change = np.linalg.pinv(jacobian) @ error`
+            code: `# Positional tracking error vector\nerror = setpoint[:3] - end_effector[:3]\n\nif np.linalg.norm(error) >= epsilon:\n    # Resolve joint adjustments: dq = J† * e\n    states_change = np.linalg.pinv(jacobian) @ error`
         },
         {
             filename: "safety_constraints.py",
             explanation: "Enforces performance margins. Clamps joint positional updates to a maximum limit of <strong>±0.125 rad</strong> and applies a loop gain multiplier of <strong>0.01</strong> to regulate system convergence and prevent velocity spikes when crossing singularities.",
-            code: `# Update joint variables with damping and clamping
-for i in range(len(self._joint_states)):
-    self._joint_states[i] += min(0.01 * states_change[i], 0.125)`
+            code: `# Update joint variables with damping and clamping\nfor i in range(len(self._joint_states)):\n    self._joint_states[i] += min(0.01 * states_change[i], 0.125)`
         }
     ];
 
     function selectCodeTab(index) {
-        // Update tab buttons active state
         const buttons = document.querySelectorAll('.code-tab-btn');
         buttons.forEach((btn, i) => {
             if (i === index) btn.classList.add('active');
             else btn.classList.remove('active');
         });
-
-        // Update code pane contents
         const content = codeTabContents[index];
         document.getElementById('walkthrough-filename').innerText = content.filename;
         document.getElementById('walkthrough-code').innerText = content.code;
         document.getElementById('walkthrough-explanation').innerHTML = content.explanation;
     }
-
-    // Initialize code tab view
     selectCodeTab(0);
     </script>
-
 </body>
 </html>
