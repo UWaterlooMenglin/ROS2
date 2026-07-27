@@ -90,7 +90,7 @@ This perturbation approach allows the node to support arbitrary URDF definitions
 ## Quick Start
 
 ### Prerequisites
-- ROS2 Humble
+- ROS2 Jazzy
 - Python 3.10+
 - NumPy
 
@@ -98,8 +98,8 @@ This perturbation approach allows the node to support arbitrary URDF definitions
 
 ```bash
 # Compile package
-cd ~/ROS2
-colcon build --packages-select py_package
+cd ROS2
+colcon build --symlink-install
 source install/setup.bash
 
 # Run controller node
@@ -109,7 +109,8 @@ ros2 run py_package robot_controller
 ### Visualizing State
 ```bash
 # Run visualizer (configured to listen to joint states and setpoints)
-rviz2
+# Robot model local path: src/py_package/meshes/robot.urdf
+ros2 launch urdf_tutorial display.launch.py model:=/path/to/src/py_package/meshes/robot.urdf
 ```
 
 ---

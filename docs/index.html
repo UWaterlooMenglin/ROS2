@@ -7,12 +7,21 @@
     <meta name="description" content="A real-time numerical inverse kinematics solver for 6-DOF robot arms, built with ROS2 and the Jacobian pseudo-inverse method.">
     <link rel="icon" type="image/png" href="assets/ros2-favicon.png">
     <link rel="stylesheet" href="style.css">
+    <!-- MathJax Configuration and Script -->
+    <script>
+        MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']]
+            }
+        };
+    </script>
     <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 </head>
 <body>
 
     <canvas id="particle-canvas"></canvas>
 
+    <!-- Navigation -->
     <nav class="nav">
         <div class="container">
             <div class="nav-brand">menglin<span>.robotics</span></div>
@@ -25,11 +34,12 @@
         </div>
     </nav>
 
+    <!-- Main Portfolio Summary View -->
     <div id="summary-view" class="view-container">
         <header class="hero" id="overview">
             <div class="container">
                 <p class="hero-title fade-up fade-up-d1">Real-Time Inverse Kinematics<br>for 6-DOF Robot Arms</p>
-                <div class="hero-badge fade-up">ROS2 Jazzy · Python · NumPy · RViz2</div>
+                <div class="hero-badge fade-up fade-up-d2">ROS2 Jazzy · Python · NumPy · RViz2</div>
                 <p class="hero-summary fade-up fade-up-d2">
                     A numerical IK solver designed to map Cartesian coordinate setpoints into joint positions. 
                     Operating directly as a ROS2 node which delivers smooth manipulator trajectories at a deterministic 50 Hz.
@@ -40,57 +50,7 @@
             </div>
         </header>
 
-        <!-- TODO: Telemetry / Live Monitor section (commented out pending implementation)
-        <section class="console-section" id="telemetry">
-            <div class="container">
-                <div class="section-label">Live Monitor</div>
-                <h2>Control Console Telemetry</h2>
-                <p style="color: var(--text-secondary); margin-bottom: 2rem; max-width: 600px;">
-                    This interactive telemetry panel demonstrates live feedback from the ROS2 controller node during end-effector target pursuit. Values represent coordinate updates and joint angles solved in real time.
-                </p>
-                <div class="console-panel">
-                    <div class="console-header">
-                        <div class="console-title">ROBOT CONTROLLER NODE STATUS</div>
-                        <div class="console-badge glowing" id="console-status">SOLVER CONVERGED</div>
-                    </div>
-                    <div class="console-grid">
-                        <div class="console-card">
-                            <div class="console-label">Target Position (Setpoint)</div>
-                            <div class="console-val active" id="tel-target">X: 0.854m / Y: -0.210m / Z: 1.450m</div>
-                        </div>
-                        <div class="console-card">
-                            <div class="console-label">End-Effector Pose (FK Output)</div>
-                            <div class="console-val" id="tel-current">X: 0.852m / Y: -0.208m / Z: 1.451m</div>
-                        </div>
-                        <div class="console-card">
-                            <div class="console-label">Cartesian Error Vector</div>
-                            <div class="console-val" id="tel-error" style="color: #28c840;">Δx: 0.003m</div>
-                        </div>
-                        <div class="console-card">
-                            <div class="console-label">Active Joint Angles (q Vector)</div>
-                            <div class="joint-list">
-                                <div class="joint-row"><span>q1:</span><span id="tel-q1">0.125 rad</span></div>
-                                <div class="joint-row"><span>q2:</span><span id="tel-q2">0.785 rad</span></div>
-                                <div class="joint-row"><span>q3:</span><span id="tel-q3">0.021 rad</span></div>
-                                <div class="joint-row"><span>q4:</span><span id="tel-q4">-1.571 rad</span></div>
-                                <div class="joint-row"><span>q5:</span><span id="tel-q5">0.000 rad</span></div>
-                                <div class="joint-row"><span>q6:</span><span id="tel-q6">-1.571 rad</span></div>
-                            </div>
-                        </div>
-                        <div class="console-card">
-                            <div class="console-label">Control Loop Rate</div>
-                            <div class="console-val">50.0 Hz</div>
-                        </div>
-                        <div class="console-card">
-                            <div class="console-label">Numerical Jacobian Stability</div>
-                            <div class="console-val" id="tel-jacobian" style="color: var(--accent-secondary);">Cond: 4.82</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-        -->
-
+        <!-- Solver Capabilities -->
         <section class="stats-section" id="capabilities">
             <div class="container">
                 <div class="section-label">Solver Core</div>
@@ -116,61 +76,145 @@
             </div>
         </section>
 
+        <!-- System Architecture -->
         <section class="logic-flow" id="architecture">
             <div class="container">
-                <div class="section-label">Dataflow</div>
-                <h2>System Architecture Graph</h2>
-                <p style="color: var(--text-secondary); max-width: 600px; margin: 0 auto 3rem; text-align: center;">
-                    Overview of the communication interfaces and calculation loops that drive the active robotic state.
+                <div class="section-label">System Architecture</div>
+                <h2>Feedback Control Loop &amp; ROS2 Interfaces</h2>
+                <p class="arch-subtitle">
+                    The <code>robot_controller</code> node runs a closed-loop IK solve at 50&nbsp;Hz and
+                    publishes live joint and marker state into the ROS2 graph for RViz2.
                 </p>
-                <div class="arch-diagram-container">
-                    <div class="arch-row">
-                        <div class="arch-card highlight-card">
-                            <h4>Target Input</h4>
-                            <p>Subscribes to reference target position marker</p>
+
+                <div class="arch-stack">
+                    <div class="arch-node-bar">
+                        <span class="pulse-dot"></span>
+                        <div class="arch-node-meta">
+                            <h3>ROS2 Node <code>robot_controller</code></h3>
+                            <p>Timer-driven callback every <code>0.02&nbsp;s</code> — solve then publish</p>
                         </div>
-                        <div class="arch-connector">→</div>
-                        <div class="arch-card">
-                            <h4>Error Evaluation</h4>
-                            <p>Computes positional vector Δx = target − FK(q)</p>
-                        </div>
+                        <span class="badge-hz">50 Hz</span>
                     </div>
-                    <div style="text-align: center; color: var(--text-muted); font-size: 1.2rem; user-select: none;">↓</div>
-                    <div class="arch-row">
-                        <div class="arch-card">
-                            <h4>Jacobian Perturbation</h4>
-                            <p>Numerically builds J matrix by perturbing joint values</p>
+
+                    <div class="arch-split">
+                        <div class="arch-panel-frame arch-panel-frame-loop" aria-hidden="true"></div>
+                        <div class="arch-panel-frame arch-panel-frame-ros" aria-hidden="true"></div>
+
+                        <div class="arch-panel-header arch-head-loop">
+                            <span class="arch-panel-kicker">Solver</span>
+                            <h3>Closed-Loop IK</h3>
                         </div>
-                        <div class="arch-connector">→</div>
-                        <div class="arch-card highlight-card">
-                            <h4>Pseudo-Inverse Solver</h4>
-                            <p>Evaluates joint delta using Moore-Penrose matrix inversion</p>
+                        <div class="arch-head-gap" aria-hidden="true"></div>
+                        <div class="arch-panel-header arch-head-ros">
+                            <span class="arch-panel-kicker">Middleware</span>
+                            <h3>ROS2 Publications</h3>
                         </div>
-                        <div class="arch-connector">→</div>
-                        <div class="arch-card">
-                            <h4>Safety Governor</h4>
-                            <p>Clamps output rates to stay within physical hardware limits</p>
+
+                        <article class="step-item" style="--step: 0">
+                            <span class="step-num">1</span>
+                            <div class="step-info">
+                                <h4>Forward Kinematics</h4>
+                                <p>Chain URDF link transforms from the base through each joint to recover the current end-effector pose in Cartesian space — the reference for both tracking error and the EE marker publish.</p>
+                            </div>
+                        </article>
+                        <div class="arch-bridge" style="--step: 0"><span></span></div>
+                        <div class="arch-io-topic">
+                            <span class="topic-badge badge-pub">PUB</span>
+                            <div class="topic-details">
+                                <code>/marker</code>
+                                <small>visualization_msgs/Marker</small>
+                                <p>Blue arrow — EE pose from forward kinematics</p>
+                            </div>
                         </div>
-                    </div>
-                    <div style="text-align: center; color: var(--text-muted); font-size: 1.2rem; user-select: none;">↓</div>
-                    <div class="arch-row">
-                        <div class="arch-card highlight-card">
-                            <h4>Joint States Publisher</h4>
-                            <p>Publishes values to /joint_states at 50 Hz</p>
+
+                        <div class="step-flow" aria-hidden="true" style="--step: 0"></div>
+                        <div class="arch-bridge-gap" aria-hidden="true"></div>
+                        <div class="arch-mid-gap" aria-hidden="true"></div>
+
+                        <article class="step-item" style="--step: 1">
+                            <span class="step-num">2</span>
+                            <div class="step-info">
+                                <h4>Tracking Error &amp; Setpoint Gate</h4>
+                                <p>Subtract the EE pose from the Cartesian setpoint. If inside the deadband, the node samples a new target; outside it, the residual drives the Jacobian solve.</p>
+                            </div>
+                        </article>
+                        <div class="arch-bridge" style="--step: 1"><span></span></div>
+                        <div class="arch-io-topic">
+                            <span class="topic-badge badge-pub">PUB</span>
+                            <div class="topic-details">
+                                <code>/setpoint</code>
+                                <small>visualization_msgs/Marker</small>
+                                <p>Red arrow — Cartesian setpoint goal</p>
+                            </div>
                         </div>
-                        <div class="arch-connector">→</div>
-                        <div class="arch-card">
-                            <h4>3D RViz2 Render</h4>
-                            <p>Visualizes robot model pose dynamically</p>
+
+                        <div class="step-flow" aria-hidden="true" style="--step: 1"></div>
+                        <div class="arch-bridge-gap" aria-hidden="true"></div>
+                        <div class="arch-mid-gap" aria-hidden="true"></div>
+
+                        <article class="step-item" style="--step: 2">
+                            <span class="step-num">3</span>
+                            <div class="step-info">
+                                <h4>Numerical Jacobian</h4>
+                                <p>Nudge each joint slightly and re-run FK to measure how the EE moves, assembling a 3×6 sensitivity matrix without analytical interpretations.</p>
+                            </div>
+                        </article>
+                        <div class="arch-bridge-gap" aria-hidden="true"></div>
+                        <div class="arch-mid-gap arch-mid-gap-fill" aria-hidden="true"></div>
+
+                        <div class="step-flow" aria-hidden="true" style="--step: 2"></div>
+                        <div class="arch-bridge-gap" aria-hidden="true"></div>
+                        <div class="arch-mid-gap" aria-hidden="true"></div>
+
+                        <article class="step-item" style="--step: 3">
+                            <span class="step-num">4</span>
+                            <div class="step-info">
+                                <h4>Pseudo-Inverse Solve</h4>
+                                <p>Project the Cartesian error through the Moore-Penrose inverse of the Jacobian Matrix so the joint update reduces tracking error while preferring small displacements.</p>
+                            </div>
+                        </article>
+                        <div class="arch-bridge-gap" aria-hidden="true"></div>
+                        <div class="arch-mid-gap arch-mid-gap-fill" aria-hidden="true"></div>
+
+                        <div class="step-flow" aria-hidden="true" style="--step: 3"></div>
+                        <div class="arch-bridge-gap" aria-hidden="true"></div>
+                        <div class="arch-mid-gap" aria-hidden="true"></div>
+
+                        <article class="step-item" style="--step: 4">
+                            <span class="step-num">5</span>
+                            <div class="step-info">
+                                <h4>Safety Governor</h4>
+                                <p>Apply gain scaling and per-joint clamps before committing the new configuration, preventing overshoot and velocity spikes near singularities.</p>
+                            </div>
+                        </article>
+                        <div class="arch-bridge" style="--step: 4"><span></span></div>
+                        <div class="arch-io-topic arch-io-topic-joint">
+                            <span class="topic-badge badge-green">PUB</span>
+                            <div class="topic-details">
+                                <code>/joint_states</code>
+                                <small>sensor_msgs/JointState</small>
+                                <p>Six joint angles after the safety-governed update</p>
+                            </div>
                         </div>
-                    </div>
-                    <div class="arch-loopback">
-                        <span>Feedback Path</span>: Current Joint Vector q feeds back into the Error Evaluation block for the next control iteration
+
+                        <div class="feedback-return" aria-hidden="true">
+                            <span class="feedback-arrow">↺</span>
+                            <span class="feedback-label">Feed the joint updates back to Forward Kinematics<br>in the next clock cycle</span>
+                        </div>
+                        <div class="arch-bridge-gap" aria-hidden="true"></div>
+                        <div class="arch-io-sink">
+                            <span class="arch-io-sink-mark">RViz2</span>
+                            <div>
+                                <strong>3D render stack</strong>
+                                <p>Subscribes to <code>/setpoint</code>, <code>/marker</code> and <code>/joint_states</code> for live visualization</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </section>
 
+        <!-- Code Walkthrough Section -->
         <section class="code-walkthrough-section" id="walkthrough">
             <div class="container">
                 <div class="section-label">Code Walkthrough</div>
@@ -201,6 +245,7 @@
             </div>
         </section>
 
+        <!-- Tech Stack -->
         <section class="tech-section" id="stack">
             <div class="container">
                 <div class="section-label">Built With</div>
@@ -231,9 +276,9 @@
         </section>
     </div>
 
+    <!-- Technical Deep-Dive Separate Page/View -->
     <div id="deep-dive-view" class="view-container view-hidden">
         <div class="deep-dive-view-container">
-            <div class="back-navigation"></div>
             <header class="deep-dive-header">
                 <h1>Technical Deep-Dive</h1>
                 <p>Mathematical structures and parameters of the numerical Inverse Kinematics solver.</p>
@@ -245,10 +290,10 @@
                         Determining the current spatial position of the manipulator requires chaining coordinate frame mappings from the base mount to the end-effector. This homogeneous transformation matrix is resolved using the configuration vector:
                     </p>
                     <div class="math-expression">
-                        \[ T_{fk}(\vec{θ}) = T_1(θ_1) \cdot T_2(θ_2) \cdot \dots \cdot T_6(θ_6) \cdot T_{ee} \]
+                        \[ T_{fk}(\vec{\theta}) = T_1(\theta_1) \cdot T_2(\theta_2) \cdot \dots \cdot T_6(\theta_6) \cdot T_{ee} \]
                     </div>
                     <p>
-                        This chaining function uses dimensions extracted from the robot geometry parameters file(URDF file) to convert joint rotations into a single 4x4 matrix defining Cartesian frame coordinate properties.
+                        This chaining function uses dimensions extracted from the robot geometry parameters file (URDF file) to convert joint rotations into a single 4x4 matrix defining Cartesian frame coordinate properties.
                     </p>
                 </div>
                 <div class="deep-dive-block">
@@ -257,13 +302,13 @@
                         The Jacobian matrix maps velocities between joints' rotation space and Cartesian movement space:
                     </p>
                     <div class="math-expression">
-                        \[ \vec{v} = J(\vec{θ}) \cdot \vec{ω} \]
+                        \[ \vec{v} = J(\vec{\theta}) \cdot \vec{\omega} \]
                     </div>
                     <p>
                         Because the controller node needs to translate a desired movement vector into state updates for the manipulator joints, this relationship was solved using the Moore-Penrose pseudo-inverse representation:
                     </p>
                     <div class="math-expression">
-                        \[ \Delta \vec{θ} = J^T \cdot (JJ^T)^{-1} \cdot \vec{d}_{error} \]
+                        \[ \Delta \vec{\theta} = J^T \cdot (JJ^T)^{-1} \cdot \vec{d}_{error} \]
                     </div>
                     <p>
                         This mathematical mapping identifies the joints' state updates that satisfy positional setpoints while minimizing displacement magnitude, helping resolve redundant joint paths.
@@ -272,10 +317,10 @@
                 <div class="deep-dive-block">
                     <h2>Numerical Perturbation Solver</h2>
                     <p>
-                        To ensure that this controller node can run on multiple designs without manual configuration, the columns of the Jacobian are evaluated numerically.<br>The joint configurations are perturbed by a small interval ε( = 0.01):
+                        To ensure that this controller node can run on multiple designs without manual configuration, the columns of the Jacobian are evaluated numerically. The joint configurations are perturbed by a small interval $\epsilon = 0.01$:
                     </p>
                     <div class="math-expression">
-                        \[ J_{row,j} = \frac{T_{fk}(\vec{θ} + \epsilon \cdot \hat{e}_j) - T_{fk}(\vec{θ})}{\epsilon} \]
+                        \[ J_{row,j} = \frac{T_{fk}(\vec{\theta} + \epsilon \cdot \hat{e}_j) - T_{fk}(\vec{\theta})}{\epsilon} \]
                     </div>
                     <p>
                         This numerical approximation extracts directional sensitivities using only the Forward Kinematics function, making the solver compatible with arbitrary joint structure modifications.
@@ -314,10 +359,10 @@
                     </table>
                 </div>
             </article>
-            <div style="margin-top: 4rem; text-align: center;"></div>
         </div>
     </div>
 
+    <!-- Footer -->
     <footer class="footer">
         <div class="container">
             <p>&copy; 2026 Menglin Wang · University of Waterloo</p>
@@ -329,7 +374,9 @@
         </div>
     </footer>
 
+    <!-- Interactive Scripts -->
     <script>
+    /* Particle Canvas Background Animation */
     (function() {
         const canvas = document.getElementById('particle-canvas');
         const ctx = canvas.getContext('2d');
@@ -434,6 +481,7 @@
         animate();
     })();
 
+    /* Page Routing & Hash Navigation */
     function routeTo(hash) {
         const summaryView = document.getElementById('summary-view');
         const deepDiveView = document.getElementById('deep-dive-view');
@@ -446,15 +494,17 @@
         } else {
             deepDiveView.classList.add('view-hidden');
             summaryView.classList.remove('view-hidden');
-            if (hash === '#overview') {
+            if (hash === '#overview' || hash === '') {
                 window.location.hash = '';
                 window.scrollTo(0, 0);
             } else if (hash && hash !== '#') {
                 window.location.hash = hash.substring(1);
-                const targetElement = document.querySelector(hash);
-                if (targetElement) {
-                    targetElement.scrollIntoView({ behavior: 'smooth' });
-                }
+                setTimeout(() => {
+                    const targetElement = document.querySelector(hash);
+                    if (targetElement) {
+                        targetElement.scrollIntoView({ behavior: 'smooth' });
+                    }
+                }, 50);
             } else {
                 window.location.hash = '';
             }
@@ -471,6 +521,9 @@
             } else if (href === '#' || href === '#overview') {
                 e.preventDefault();
                 routeTo('#overview');
+            } else if (href && href.startsWith('#')) {
+                e.preventDefault();
+                routeTo(href);
             }
         }
     });
@@ -479,7 +532,7 @@
         if (window.location.hash === '#deep-dive') {
             routeTo('#deep-dive');
         } else {
-            routeTo('');
+            routeTo(window.location.hash);
         }
     });
 
@@ -491,52 +544,7 @@
         }
     });
 
-    /* TODO: Telemetry simulation loop (commented out pending implementation)
-    let telemetryTime = 0;
-    setInterval(() => {
-        telemetryTime += 1;
-        const statusBadge = document.getElementById('console-status');
-        const targetX = 0.850 + Math.sin(telemetryTime * 0.04) * 0.08;
-        const targetY = -0.210 + Math.cos(telemetryTime * 0.05) * 0.05;
-        const targetZ = 1.450 + Math.sin(telemetryTime * 0.03) * 0.03;
-        const lagX = targetX + Math.sin(telemetryTime * 0.12) * 0.0015;
-        const lagY = targetY + Math.cos(telemetryTime * 0.15) * 0.0012;
-        const lagZ = targetZ + Math.sin(telemetryTime * 0.10) * 0.0011;
-        const errX = targetX - lagX;
-        const errY = targetY - lagY;
-        const errZ = targetZ - lagZ;
-        const errNorm = Math.sqrt(errX*errX + errY*errY + errZ*errZ);
-        document.getElementById('tel-target').innerText = `X: ${targetX.toFixed(3)}m / Y: ${targetY.toFixed(3)}m / Z: ${targetZ.toFixed(3)}m`;
-        document.getElementById('tel-current').innerText = `X: ${lagX.toFixed(3)}m / Y: ${lagY.toFixed(3)}m / Z: ${lagZ.toFixed(3)}m`;
-        document.getElementById('tel-error').innerText = `Δx: ${errNorm.toFixed(4)}m`;
-        const q1 = Math.sin(telemetryTime * 0.04) * 0.2 + 0.125;
-        const q2 = Math.cos(telemetryTime * 0.05) * 0.15 + 0.785;
-        const q3 = Math.sin(telemetryTime * 0.03) * 0.12 + 0.021;
-        const q4 = -1.571 + Math.cos(telemetryTime * 0.04) * 0.05;
-        const q5 = Math.sin(telemetryTime * 0.06) * 0.08;
-        const q6 = -1.571 + Math.sin(telemetryTime * 0.05) * 0.1;
-        document.getElementById('tel-q1').innerText = `${q1.toFixed(3)} rad`;
-        document.getElementById('tel-q2').innerText = `${q2.toFixed(3)} rad`;
-        document.getElementById('tel-q3').innerText = `${q3.toFixed(3)} rad`;
-        document.getElementById('tel-q4').innerText = `${q4.toFixed(3)} rad`;
-        document.getElementById('tel-q5').innerText = `${q5.toFixed(3)} rad`;
-        document.getElementById('tel-q6').innerText = `${q6.toFixed(3)} rad`;
-        const cond = 4.2 + Math.abs(Math.sin(telemetryTime * 0.03)) * 2.8;
-        document.getElementById('tel-jacobian').innerText = `Cond: ${cond.toFixed(2)}`;
-        if (errNorm > 0.004) {
-            statusBadge.innerText = "SOLVER ACTIVE";
-            statusBadge.style.color = "var(--accent)";
-            statusBadge.style.borderColor = "rgba(0, 212, 255, 0.3)";
-            statusBadge.style.background = "rgba(0, 212, 255, 0.1)";
-        } else {
-            statusBadge.innerText = "SOLVER CONVERGED";
-            statusBadge.style.color = "#28c840";
-            statusBadge.style.borderColor = "rgba(40, 200, 64, 0.3)";
-            statusBadge.style.background = "rgba(40, 200, 64, 0.1)";
-        }
-    }, 100);
-    */
-
+    /* Interactive Code Walkthrough Tab Selector */
     const codeTabContents = [
         {
             filename: "forward_kinematics.py",
