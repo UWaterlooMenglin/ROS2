@@ -170,7 +170,7 @@ body > * {
     align-items: flex-start;
     justify-content: center;
     text-align: center;
-    padding: 4.5rem 0 3rem 0;
+    padding: 4.5rem 0 0 0;
     position: relative;
     overflow: hidden;
 }
@@ -268,7 +268,7 @@ body > * {
    STATS GRID
    ===================== */
 .stats-section {
-    padding: 3.5rem 0;
+    padding-top: 3rem;
 }
 
 .section-label {
@@ -355,7 +355,7 @@ body > * {
    SYSTEM ARCHITECTURE — PAIRED LOOP + PUBS
    ============================================ */
 .logic-flow {
-    padding: 3.5rem 0;
+    padding-top: 3rem;
     position: relative;
 }
 
@@ -826,7 +826,7 @@ body > * {
    CODE WALKTHROUGH
    ===================== */
 .code-walkthrough-section {
-    padding: 3.5rem 0;
+    padding-top: 3rem;
 }
 
 .code-walkthrough-layout {
@@ -941,7 +941,7 @@ body > * {
    TECH STACK SECTION
    ===================== */
 .tech-section {
-    padding: 3.5rem 0;
+    padding-top: 3rem;
 }
 
 .tech-section h2 {
@@ -999,7 +999,7 @@ body > * {
 .deep-dive-view-container {
     max-width: 840px;
     margin: 0 auto;
-    padding: 7rem 2rem 6rem;
+    padding: 5rem 2rem 0;
 }
 
 .back-navigation {
@@ -1031,9 +1031,8 @@ body > * {
 }
 
 .deep-dive-header {
-    margin-bottom: 3.5rem;
+    margin-bottom: 3rem;
     border-bottom: 1px solid var(--border);
-    padding-bottom: 2rem;
 }
 
 .deep-dive-header h1 {
