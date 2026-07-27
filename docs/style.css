@@ -225,6 +225,11 @@ body > * {
     50% { background-position: 100% 50%; }
 }
 
+@media (prefers-reduced-motion: reduce) {
+    .hero-title { animation: none; }
+    #particle-canvas { display: none; }
+}
+
 .hero-summary {
     font-size: 1.5rem;
     color: var(--text-secondary);

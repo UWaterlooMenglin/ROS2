@@ -1,8 +1,14 @@
-# Real-Time Inverse Kinematics for 6-DOF Robot Arms
+# 6-DOF Inverse Kinematics — Real-Time ROS2 Controller
 
-A numerical Inverse Kinematics (IK) solver that drives a 6-DOF robotic manipulator to track arbitrary end-effector target positions in real time. Built using the Jacobian pseudo-inverse method with adaptive gain control, operating at 50 Hz within the ROS2 ecosystem.
+Compact reference for the numerical IK controller that runs as a ROS2 node. The implementation uses a numerical Jacobian and the Moore-Penrose pseudo-inverse to compute joint updates that track Cartesian setpoints at a deterministic 50 Hz update rate.
 
-Inverse kinematics serves as the mathematical bridge mapping Cartesian coordinates to joint angles. This project implements this controller from scratch, providing full visibility into the numerical control loop driving manipulator kinematics.
+This README focuses on: A concise system overview, the control loop and safety measures. How to build and visualize the node. A indepth and interactive walkthrough of the mathematical derivations.
+
+---
+
+## Overview
+
+A numerical IK controller node for 6-DOF manipulators that converts Cartesian setpoints into joint updates using only the Forward Kinematics function and finite-difference Jacobian estimation. Designed for clarity and portability: deterministic timer callback and built-in safety limits to prevent unstable motion.
 
 ---
 
@@ -12,9 +18,9 @@ Inverse kinematics serves as the mathematical bridge mapping Cartesian coordinat
 graph TD
     subgraph ROS2_Environment [ROS2 Controller Node Loop - 50 Hz]
         direction TB
-        Error["Error Computation<br/>e = target - FK(q)"]
-        Jacobian["Numerical Jacobian Builder<br/>J(q) via joint perturbation"]
-        Solver["Pseudo-Inverse Solver<br/>dq = J† * e"]
+        Error["Error Computation<br/>e = setpoint - FK(θ)"]
+        Jacobian["Numerical Jacobian Builder<br/>J(θ) via joint perturbation"]
+        Solver["Pseudo-Inverse Solver<br/>dθ = J^-1 * e"]
         Governor["Safety Governor<br/>clamping & gain scaling"]
         
         Error --> Jacobian
@@ -23,7 +29,7 @@ graph TD
     end
 
     subgraph Inputs
-        Target["/target Pose (Marker Setpoint)"]
+        Setpoint["/Setpoint Pose (Marker Setpoint)"]
     end
 
     subgraph Output_Visualization
@@ -31,19 +37,20 @@ graph TD
         RViz["RViz2 Robot Visualizer"]
     end
 
-    Target -->|"Subscribed setpoint"| Error
-    Governor -->|"Publish updated q"| JointStates
+    Setpoint -->|"Subscribed setpoint"| Error
+    Governor -->|"Publish updated θ"| JointStates
     JointStates -->|"Render model state"| RViz
-    JointStates -->|"Feedback loop (q)"| Error
+    JointStates -->|"Feedback loop (θ)"| Error
 ```
 
 The controller executes a deterministic feedback loop structured as follows:
-1. **Forward Kinematics**: Computes the end-effector transform matrix chain using active joint states.
-2. **Error Evaluation**: Evaluates the Euclidean distance vector between the target position and current end-effector.
-3. **Numerical Jacobian**: Evaluates sensitivity columns by perturbing each joint angle by a small step.
-4. **Pseudo-Inverse Solver**: Updates joint angles using the Moore-Penrose pseudo-inverse of the Jacobian.
-5. **Safety Constraints**: Restricts the maximum joint speed and scales output increments to prevent singular behaviors.
-6. **State Publication**: Publishes joint angles to visualization interfaces.
+
+1. Forward Kinematics: chain homogeneous transforms (t1..t7) to compute the end-effector pose in world frame.
+2. Error Evaluation: compute e = setpoint_position - current_ee_position.
+3. Numerical Jacobian: perturb each joint by ε = 0.01 and re-run FK to assemble a 3×6 Jacobian Matrix.
+4. Pseudo-Inverse Solve: compute the minimum-norm joint update using the Moore–Penrose pseudo-inverse (NumPy pinv).
+5. Safety Governor: apply a loop gain (0.01) and clamp each joint increment to ±0.125 rad before committing.
+6. Publish: /marker (EE), /setpoint (goal) and /joint_states for visualization in RViz2 and feedback in the next cycle.
 
 ---
 
@@ -51,39 +58,49 @@ The controller executes a deterministic feedback loop structured as follows:
 
 ### Forward Kinematics
 
-The Cartesian pose of the end-effector is calculated by chaining homogeneous transformation matrices from the base link to the tip:
+Determining the current spatial position of the manipulator requires chaining coordinate frame mappings from the base mount to the end-effector. This homogeneous transformation matrix is resolved using the configuration vector:
 
-$$T_{base}^{ee} = T_0^1(q_1) \cdot T_1^2(q_2) \cdot \ldots \cdot T_5^6(q_6) \cdot T_6^{ee}$$
+$$
+T_{fk}(\vec{\theta}) = T_1(\theta_1) \cdot T_2(\theta_2) \cdot \dots \cdot T_6(\theta_6) \cdot T_{ee}
+$$
 
-Each transformation matrix translates and rotates coordinate frames depending on joint configuration $q$.
+This chaining function uses dimensions extracted from the robot geometry parameters file (URDF file) to convert joint rotations into a single 4×4 matrix defining Cartesian frame coordinate properties.
 
-### Jacobian Pseudo-Inverse
+### Jacobian Mapping & Pseudo-Inverse
 
-The Jacobian matrix mapping joint rates to Cartesian velocity vector is defined by:
+The Jacobian matrix maps velocities between joints' rotation space and Cartesian movement space:
 
-$$\dot{x} = \mathbf{J}(q)\,\dot{q}$$
+$$
+\vec{v} = J(\vec{\theta}) \cdot \vec{\omega}
+$$
 
-The solver computes updates to joint positions by inverting this mapping using the Moore-Penrose pseudo-inverse:
+Because the controller node needs to translate a desired movement vector into state updates for the manipulator joints, this relationship was solved using the Moore–Penrose pseudo-inverse representation:
 
-$$\Delta q = \mathbf{J}^{\dagger} \Delta x = \mathbf{J}^T(\mathbf{J}\mathbf{J}^T)^{-1} \Delta x$$
+$$
+\Delta \vec{\theta} = J^T \cdot (J J^T)^{-1} \cdot \vec{d}_{error}
+$$
 
-This formulation yields the minimum-norm update vector, producing smooth joint movements and resolving kinematic redundancy.
+This mathematical mapping identifies the joints' state updates that satisfy positional setpoints while minimizing displacement magnitude, helping resolve redundant joint paths.
 
-### Numerical Differentiation
+### Numerical Perturbation Solver
 
-To maintain robot independence, the Jacobian columns are calculated numerically:
+To ensure that this controller node can run on multiple designs without manual configuration, the columns of the Jacobian are evaluated numerically. The joint configurations are perturbed by a small interval $\epsilon = 0.01$:
 
-$$J_{ij} \approx \frac{f_i(q + \epsilon\, e_j) - f_i(q)}{\epsilon}$$
+$$
+J_{row,j} = \frac{T_{fk}(\vec{\theta} + \epsilon \cdot \hat{e}_j) - T_{fk}(\vec{\theta})}{\epsilon}
+$$
 
-This perturbation approach allows the node to support arbitrary URDF definitions without analytical re-derivation.
+This numerical approximation extracts directional sensitivities using only the Forward Kinematics function, making the solver compatible with arbitrary joint structure modifications.
 
-### Stability Controls
+### Controller Safety Governor
 
-| Method | Mechanics | Purpose |
-|---|---|---|
-| **Fixed-Gain Scaling** | Scaling step size by 0.01 | Damps oscillations and prevents target overshoot |
-| **Output Clamping** | Clamping updates to ±0.125 rad | Prevents joint velocity spike instability near singularities |
-| **Deadband Convergence** | Threshold limit of 0.01m | Settles controller updates when target is reached |
+Control loops operating near singular physical limits can generate excessive joint velocity updates. The node incorporates stability scaling and bounding rules to maintain controlled motion:
+
+| Control Parameter     | Operational Setting | Functional Purpose |
+|-----------------------|--------------------:|-------------------|
+| Fixed-Gain Scaling    | 0.01               | Reduces step magnitude to prevent target overshoot |
+| Output Clamping       | ±0.125 rad         | Prevents angular speed spikes near singularities |
+| Convergence Threshold | 0.01 m deadband    | Settles solver updates once target proximity is reached |
 
 ---
 
@@ -106,10 +123,9 @@ source install/setup.bash
 ros2 run py_package robot_controller
 ```
 
-### Visualizing State
+### Visualizing Robot
 ```bash
-# Run visualizer (configured to listen to joint states and setpoints)
-# Robot model local path: src/py_package/meshes/robot.urdf
+# Launch RViz with robot model absolute path (local path: src/py_package/meshes/robot.urdf)
 ros2 launch urdf_tutorial display.launch.py model:=/path/to/src/py_package/meshes/robot.urdf
 ```
 
@@ -123,7 +139,7 @@ ROS2/
 │   ├── py_package/
 │   │   ├── robot_controller.py   # Main IK solver node
 │   │   └── turtle.py             # Utility node
-│   ├── meshes/                   # Manipulator design assets
+│   ├── meshes/                   # Manipulator design assets (URDF/meshes)
 │   ├── setup.py                  # Build scripts
 │   └── package.xml               # Package manifest
 ├── docs/                         # Portfolio landing page

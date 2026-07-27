@@ -39,13 +39,13 @@
         <header class="hero" id="overview">
             <div class="container">
                 <p class="hero-title fade-up fade-up-d1">Real-Time Inverse Kinematics<br>for 6-DOF Robot Arms</p>
-                <div class="hero-badge fade-up fade-up-d2">ROS2 Jazzy · Python · NumPy · RViz2</div>
+                <div class="hero-badge fade-up fade-up-d2">ROS2 Jazzy · Python · NumPy · RViz</div>
                 <p class="hero-summary fade-up fade-up-d2">
                     A numerical IK solver designed to map Cartesian coordinate setpoints into joint positions. 
                     Operating directly as a ROS2 node which delivers smooth manipulator trajectories at a deterministic 50 Hz.
                 </p>
                 <div class="demo-container fade-up fade-up-d3">
-                    <video src="assets/ros2-demo.mp4" class="demo" controls loop muted playsinline></video>
+                    <video src="assets/ros2-demo.mp4" class="demo" controls loop muted playsinline aria-label="Demonstration video"></video>
                 </div>
             </div>
         </header>
@@ -83,7 +83,7 @@
                 <h2>Feedback Control Loop &amp; ROS2 Interfaces</h2>
                 <p class="arch-subtitle">
                     The <code>robot_controller</code> node runs a closed-loop IK solve at 50&nbsp;Hz and
-                    publishes live joint and marker state into the ROS2 graph for RViz2.
+                    publishes live joint and marker state into the ROS2 graph for RViz.
                 </p>
 
                 <div class="arch-stack">
@@ -203,7 +203,7 @@
                         </div>
                         <div class="arch-bridge-gap" aria-hidden="true"></div>
                         <div class="arch-io-sink">
-                            <span class="arch-io-sink-mark">RViz2</span>
+                            <span class="arch-io-sink-mark">RViz</span>
                             <div>
                                 <strong>3D render stack</strong>
                                 <p>Subscribes to <code>/setpoint</code>, <code>/marker</code> and <code>/joint_states</code> for live visualization</p>
@@ -268,7 +268,7 @@
                     </div>
                     <div class="tech-item">
                         <div class="tech-icon">👁️</div>
-                        <div class="tech-name">RViz2</div>
+                        <div class="tech-name">RViz</div>
                         <div class="tech-desc">Visualizes target marker transforms and joint links</div>
                     </div>
                 </div>
@@ -367,8 +367,8 @@
         <div class="container">
             <p>&copy; 2026 Menglin Wang · University of Waterloo</p>
             <div class="social-links">
-                <a href="https://github.com/UWaterlooMenglin" target="_blank">GitHub</a>
-                <a href="https://www.linkedin.com/in/menglin-wang-2331b6413/" target="_blank">LinkedIn</a>
+                <a href="https://github.com/UWaterlooMenglin" target="_blank" rel="noopener noreferrer">GitHub</a>
+                <a href="https://www.linkedin.com/in/menglin-wang-2331b6413/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
                 <a href="mailto:m636wang@uwaterloo.ca">Email</a>
             </div>
         </div>
